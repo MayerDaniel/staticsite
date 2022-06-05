@@ -6,6 +6,7 @@ This is my first attempt at a PEP 8-compilant python script that I can be
 proud of. It is and will always be designed for personal use but can easily be
 borrowed by replacing the contents of the 'source' folder.
 
+TODO: turn written links into hyperlinks automatically
 TODO: gitpython integration for tracking which pages need to be (re)generated
 TODO: gitpython integration for pushing to github pages
 TODO: do images work?
