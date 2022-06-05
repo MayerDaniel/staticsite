@@ -14,43 +14,45 @@ TODO: autogenerating links to internal pages
 TODO: Fix cwd to always be based off of this file
 TODO: Autopopulate site photo folders from linking files on disk in the source
 """
-import sys
-from markdown_it import MarkdownIt
 import glob
-from pathlib import Path
+import sys
 import shutil
 
-"""
-Global variables
-"""
+from markdown_it import MarkdownIt
+from pathlib import Path
+
+
 md = (
     MarkdownIt()
     .enable('image')
     .enable('table')
 )
 
-source = Path('source')
-
 class SitePage:
+	"""SitePage class that is instantiated for each file in the source dir.
+
+	HTML files will be mirrored in the same directory structure with the
+	same name as their source markdown files.
+	"""
 		def __init__(self, path):
 			self.path = path
 			self.text = path.open('r').read()
 			self.html = md.render(self.text)
-
 			p         = path.relative_to('source').with_suffix('.html')
 			self.out  = Path('site').joinpath(p)
 
 
-		def generate(self):
+		def export(self):
+			"""Writes generated markdown to its mirrored location within the
+			'site' directory.
+			"""
 			self.out.parent.mkdir(exist_ok=True, parents=True)
 			self.out.write_text(self.html)
 
 
 
-
-
 if __name__ == '__main__':
 	shutil.rmtree('site')
-	for path in source.glob('**/*.md'):
+	for path in Path('source').glob('**/*.md'):
 		s = SitePage(path)
-		s.generate()
+		s.export()
