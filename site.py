@@ -9,7 +9,7 @@ borrowed by replacing the contents of the 'source' folder.
 TODO: turn written links into hyperlinks automatically
 TODO: gitpython integration for tracking which pages need to be (re)generated
 TODO: gitpython integration for pushing to github pages
-TODO: do images work?
+TODO: do images work? - no
 TODO: some sort of header and footer? or just templating?
 TODO: autogenerating links to internal pages
 TODO: Fix cwd to always be based off of this file
@@ -39,6 +39,7 @@ class SitePage:
 			self.path = path
 			self.text = path.open('r').read()
 			self.html = md.render(self.text)
+			#temporary path transormations to help create mirrored html file
 			p         = path.relative_to('source').with_suffix('.html')
 			self.out  = Path('site').joinpath(p)
 
