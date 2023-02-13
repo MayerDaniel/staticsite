@@ -1,3 +1,4 @@
+# Creating an iMessage Chatbot
 During my internship with [CrowdStrike](https://crowdstrike.com) last summer, I was introduced to [Hubot](https://hubot.github.com/). Hubot is fun, in on all of the jokes, and exceedingly helpful. Between the automation of menial tasks and joke/novelty functions, our office chatbot was a mainstay in most threads of import.
 
 Seeing an opportutnity for a *lot* of novelty and a little automation, I desperately wanted my own personal chatbot - but I did not belong to any personal slacks or hipchats to put one in. The only messaging service I used on a regular basis was texting, so I set about constructing a framework for reading and writing iMessages.

@@ -1,4 +1,5 @@
-_This blog post is a continuation of a series on Process Injection. To see all posts in the series, click [here](https://www.mayer.cool/categories/Process-Injection/)!_
+# Process Injection 102: VirtualProtect
+_This blog post is a continuation of a series on Process Injection. To see part one click [here](../Process-Injection-101-Hello-World)!_
 
 _The accompanying source files for this blog post are on [GitHub](https://github.com/MayerDaniel/ProcessInjection/tree/master/102)._
 
@@ -10,17 +11,17 @@ _While not necessary to follow this blog, it is useful to understand a little bi
 
 Fire up 32-bit x64dbg and open up `HelloWorld.exe` (you can just drag it in), and hit run. x64dbg will stop at the entry point for you.
 
-![EntryPoint](Process-Injection-102-VirtualProtect/entry.png "EntryPoint")
+![EntryPoint](entry.png "EntryPoint")
 
 At this point you are done debugging 😄 press run again to allow the `HelloWorld.exe` to execute (The bottom left corner should say `Running`).
 
 Open up the `Memory Map` tab and and press `ctrl+b`. A search window will pop up, allowing you to search for values in memory. Input `Hello World!` in the `ASCII` field:
 
-![Search](Process-Injection-102-VirtualProtect/search.png "Search")
+![Search](search.png "Search")
 
 After searching, one result should be returned - this is address of the string you want to change:
 
-![Search Result](Process-Injection-102-VirtualProtect/result.png "Search Result")
+![Search Result](result.png "Search Result")
 
 **NOTE**: The address you see will likely be different than the screenshot above! This is due to [Address Space Layout Randomization (ASLR)](https://en.wikipedia.org/wiki/Address_space_layout_randomization). ASLR randomizes the base address of `HelloWorld.exe`, but the offset of your target string from the base address `HelloWorld.exe` in memory will always be the same.
 
@@ -28,7 +29,7 @@ With this knowledge, note the address of the target string, in this example it i
 
 One more characteristic to note is that your target string is in a read-only portion of memory. The payload will have to account for this:
 
-![Read-Only Data](Process-Injection-102-VirtualProtect/rdata.png "Read-Only Data")
+![Read-Only Data](rdata.png "Read-Only Data")
 
 ## Creating the payload
 
@@ -102,7 +103,7 @@ DWORD finalPerms;
 
 Voila! You should be able to see the print statement now change when you inject your DLL into `HelloWorld.exe`:
 
-![Injected!](Process-Injection-102-VirtualProtect/injected.png "Injected!")
+![Injected!](injected.png "Injected!")
 
  As always you can check out the source for a completed payload on [GitHub](https://github.com/MayerDaniel/ProcessInjection/tree/master/102) if you run into trouble.
 
