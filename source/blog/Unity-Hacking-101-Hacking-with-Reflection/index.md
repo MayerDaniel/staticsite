@@ -244,7 +244,7 @@ Build your Visual Studio project and take note of the filepath of the built DLL.
 
 Open a command prompt and navigate to the directory you downloaded SharpMonoInjector to and run it without arguments to see its help statement:
 
-```
+```console
  .\smi.exe
 SharpMonoInjector 2.2
 
@@ -261,7 +261,7 @@ Options:
 
 Now, run snake, then alt-tab to the command line window and inject your DLL. For our game, your injection command will look something like this:
 
-```
+```console
  .\smi.exe inject -p snake -a <path to built DLL> -n cheat -c Loader -m Load
 ```
 If the injection is successful, SharpMonoInjector will print of the offset of the injected DLL. You will also see your UI show up in the game of snake. If this fails, try running the command again from an elevated command prompt. Sometimes Microsoft Defender also doesn't like process injection tools since a lot of malware uses process injection. You can try turning off Defender as well if it still isn't working and that doesn't skeeve you out. If all goes well you should see something like this in-game:
@@ -313,9 +313,9 @@ Since the flags can be `OR`ed together and it doesn't matter if a variable _does
 // Cast a wide net with our BindingFlags to catch most variables we would run into. Scope this down as needed.
 // https://learn.microsoft.com/en-us/dotnet/api/system.reflection.bindingflags?redirectedfrom=MSDN&view=net-7.0
  BindingFlags flags = BindingFlags.Instance
-        | BindingFlags.Public
-				| BindingFlags.NonPublic
-        | BindingFlags.Static;
+ 		| BindingFlags.Public
+		| BindingFlags.NonPublic
+		| BindingFlags.Static;
 ```
 
 If you encounter a class with both a public and private variable of the same name or some other sort of collision, scope this down as needed. But usually it is ok to just yolo it.
