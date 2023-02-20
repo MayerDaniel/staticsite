@@ -6,7 +6,7 @@ _This tutorial is pretty verbose and details a lot of gotchas I encountered usin
 
 ## Intro
 
-I recently participated in the [Global Game Jam](https://globalgamejam.org/) at the _very_ cool developer collective [Glitch City](https://glitch.city/), where I spent 48 hours creating a game in Unity with a team of gamedev professionals and a few novices like me. My contributions were modest and filled with spaghetti but with the help of the great game programmers on my team, I got a much better understanding of the basics of how the engine works. 
+I recently participated in the [Global Game Jam](https://globalgamejam.org/) at the _very_ cool developer collective [Glitch City](https://glitch.city/), where I spent 48 hours creating a game in Unity with a team of gamedev professionals and a few novices like me. My contributions were modest and filled with spaghetti but with the help of the great game programmers on my team, I got a much better understanding of the basics of how the engine works.
 
 During the jam, I chatted a bit with the developers on my team about my day job as a malware reverse engineer. I said that end the end of the jam we could take our game apart together as a little bit of a skill share in repayment for the wealth of Unity knowledge they were imparting on me during the jam. Well, if you know anything about how game jams go, the end was frantic (but fun!), and generally felt like this:
 
@@ -14,9 +14,9 @@ During the jam, I chatted a bit with the developers on my team about my day job 
 
 So there was no time or energy left for reverse engineering :(. But that means I get to make a blog for anyone to check out instead! And over the course of the jam I realized that Unity is a perfect place to start for game hacking/modding a few reasons:
 
-* Unity is that it is written in C#, a programming language for the .NET framework, which allows us to make use of [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection), a very powerful tool built into .NET that allows for the introspection and manipulation of running processes - we will talk more about this further down. 
+* Unity is written in C#, a programming language for the .NET framework, which allows us to make use of [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection), a very powerful tool built into .NET that allows for the introspection and manipulation of running processes - we will talk more about this further down. 
 
-* Compiled C# code also decompiles incredibly cleanly and with symbols, making Unity games a great place to start as well if you are interested in reverse engineering in general. 
+* Compiled C# code also decompiles incredibly cleanly and with symbols, making Unity games a great place to start as well if you are interested in reverse engineering in general.
 
 To first get a handle on the basics of Unity's architecture though, let's first do some plain ol' forward engineering.
 
@@ -30,7 +30,7 @@ In the field of reverse engineering software, I find the best way to wrap my hea
 
 [Unity 2D Snake Tutorial](https://noobtuts.com/unity/2d-snake-game)
 
-It does not take long, I promise. This will get you acquainted with the basic concepts of GameObjects and how C# scripting works within the engine to construct the game logic. 
+It does not take long, I promise. This will get you acquainted with the basic concepts of GameObjects and how C# scripting works within the engine to construct the game logic.
 
 <mark>PLEASE NOTE: Unity version matters!! I made my version of snake with 2021.3.16f1 - you should to! Otherwise some of my code further down may not work for you.</mark>
 
@@ -175,7 +175,7 @@ namespace cheat
 
 Now, give it a readover here because when you paste this into Visual Studio it will be full of red squigglies. That is because we haven't created our other file, which will contain the namespace `hax` and the class `hax.Hacks` yet, and we also haven't imported the Unity engine as a dependency. This is one of the other things that makes hacking games with a .NET engine so fun - you can give Visual Studio the actual DLLs shipped with the game as dependencies and they integrate seamlessly with the IDE!
 
-To add the Unity engine, go to your solution explorer and right click on "Dependencies > Add Project Reference". 
+To add the Unity engine, go to your solution explorer and right click on "Dependencies > Add Project Reference".
 
 ![Dependencies](dependency.png)
 
@@ -272,9 +272,9 @@ If you see that box in the game, it means you have successfully achieved code ex
 
 ### Adding the tail using reflection
 
-Reflection is useful for accessing and manipulating instantiated objects at runtime. Unity also has some great built-in functions for this. We will use both for implementing our function to add a tail square. 
+Reflection is useful for accessing and manipulating instantiated objects at runtime. Unity also has some great built-in functions for this. We will use both for implementing our function to add a tail square.
 
-First lets get our snake object that has been instantiated. Unity has a function `GameObject.FindObjectOfType<T>` for this exact purpose. 
+First lets get our snake object that has been instantiated. Unity has a function `GameObject.FindObjectOfType<T>` for this exact purpose.
 
 ```cs
 Snake snake = GameObject.FindObjectOfType<Snake>();
@@ -306,13 +306,13 @@ Notice the second argument `flags`. We need to use Reflection's [BindingFlags](h
 * `BindingFlags.NonPublic`: Private variables
 * `BindingFlags.Static`: Static variables
 
-Since the flags can be `OR`ed together and it doesn't matter if a variable _doesn't_ have one of the attributes we set in the BindingFlags, we can cast a wide net and cover most of the types of variables we would encounter within a Unity object. 
+Since the flags can be `OR`ed together and it doesn't matter if a variable _doesn't_ have one of the attributes we set in the BindingFlags, we can cast a wide net and cover most of the types of variables we would encounter within a Unity object.
 
 ```cs
 // Cast a wide net with our BindingFlags to catch most variables we would run into. Scope this down as needed.
 // https://learn.microsoft.com/en-us/dotnet/api/system.reflection.bindingflags?redirectedfrom=MSDN&view=net-7.0
- BindingFlags flags = BindingFlags.Instance 
-        | BindingFlags.Public 
+ BindingFlags flags = BindingFlags.Instance
+        | BindingFlags.Public
 		| BindingFlags.NonPublic
         | BindingFlags.Static;
 ```
@@ -406,14 +406,3 @@ You can now use this knowledge to play around with other Unity games, like modif
 
 
 I hope you had fun! If anything doesn't work you can always check out the materials on GitHub [HERE](https://github.com/MayerDaniel/UnityHacking/tree/main/101)
-
-
-
-
-
-
-
-
-
-
-
