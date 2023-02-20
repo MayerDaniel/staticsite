@@ -8,7 +8,7 @@ _This tutorial is pretty verbose and details a lot of gotchas I encountered usin
 
 I recently participated in the [Global Game Jam](https://globalgamejam.org/) at the _very_ cool developer collective [Glitch City](https://glitch.city/), where I spent 48 hours creating a game in Unity with a team of gamedev professionals and a few novices like me. My contributions were modest and filled with spaghetti but with the help of the great game programmers on my team, I got a much better understanding of the basics of how the engine works.
 
-During the jam, I chatted a bit with the developers on my team about my day job as a malware reverse engineer. I said that end the end of the jam we could take our game apart together as a little bit of a skill share in repayment for the wealth of Unity knowledge they were imparting on me during the jam. Well, if you know anything about how game jams go, the end was frantic (but fun!), and generally felt like this:
+During the jam, I chatted a bit with the developers on my team about my day job as a malware reverse engineer. I said that at the end of the jam we could take our game apart together as a little bit of a skill share in repayment for the wealth of Unity knowledge they were imparting on me during the jam. Well, if you know anything about how game jams go, the end was frantic (but fun!), and generally felt like this:
 
 ![The jam](jam.jpg)
 
@@ -32,7 +32,7 @@ In the field of reverse engineering software, I find the best way to wrap my hea
 
 It does not take long, I promise. This will get you acquainted with the basic concepts of GameObjects and how C# scripting works within the engine to construct the game logic.
 
-<mark>PLEASE NOTE: Unity version matters!! I made my version of snake with 2021.3.16f1 - you should to! Otherwise some of my code further down may not work for you.</mark>
+<mark>PLEASE NOTE: Unity version matters!! I made my version of snake with 2021.3.16f1 - you should too! Otherwise some of my code further down may not work for you.</mark>
 
 If you don't want to walk through it or are already familiar with Unity, I have included my build of the game on GitHub [HERE](https://github.com/MayerDaniel/UnityHacking/blob/main/101/snakebuild.zip?raw=true) (clicking this will download the zip file). The only difference between my build and the tutorial is I added the following line to reload the scene when you die:
 
@@ -96,7 +96,7 @@ This will bring you to its definition within the `Snake` class, which I have inc
 	private bool ate;
 ```
 
-Ok, so it a boolean, and it is a private variable belonging to the class `Snake`. "Oh no!" you might say - "that means that no function outside the `Snake` class can access that class! This tutorial is over!" to which I say, cut the histrionics! Where there is a will there's a way. And that way is reflection!
+Ok, so it is a boolean, and it is a private variable belonging to the class `Snake`. "Oh no!" you might say - "that means that no function outside the `Snake` class can access that class! This tutorial is over!" to which I say, cut the histrionics! Where there is a will there's a way. And that way is reflection!
 
 ## Reflection is the coolest part of .NET
 
