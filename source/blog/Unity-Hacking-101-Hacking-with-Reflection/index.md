@@ -2,7 +2,7 @@
 
 _This tutorial is for Windows machines and intended to be followed step-by-step. Associated materials can be found on GitHub [HERE](https://github.com/MayerDaniel/UnityHacking)_.
 
-_This tutorial is pretty verbose and details a lot of gotchas I encountered using Visual Studio and Unity for the first time. If you just want to learn about how to access game objects at runtime using reflection, [skip to the end](#adding-the-tail-using-reflection)._
+_This tutorial is pretty verbose and details a lot of gotchas I encountered using Visual Studio and Unity for the first time. If you just want to learn about how to access game objects at runtime using reflection, [skip to the end](#interestingbit)._
 
 ## Intro
 
@@ -14,7 +14,7 @@ During the jam, I chatted a bit with the developers on my team about my day job 
 
 So there was no time or energy left for reverse engineering :(. But that means I get to make a blog for anyone to check out instead! And over the course of the jam I realized that Unity is a perfect place to start for game hacking/modding a few reasons:
 
-* Unity is written in C#, a programming language for the .NET framework, which allows us to make use of [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection), a very powerful tool built into .NET that allows for the introspection and manipulation of running processes - we will talk more about this further down. 
+* Unity is written in C#, a programming language for the .NET framework, which allows us to make use of [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection), a very powerful tool built into .NET that allows for the introspection and manipulation of running processes - we will talk more about this further down.
 
 * Compiled C# code also decompiles incredibly cleanly and with symbols, making Unity games a great place to start as well if you are interested in reverse engineering in general.
 
@@ -269,6 +269,7 @@ If the injection is successful, SharpMonoInjector will print of the offset of th
 ![Hacked!](hacked.png)
 
 If you see that box in the game, it means you have successfully achieved code execution in the Unity game. Well done. Now let's add that tail!
+<div id="interestingbit"></div>
 
 ### Adding the tail using reflection
 
@@ -291,7 +292,7 @@ We can now create a generic `Type` object for the type `Snake` in our code:
 Type snakeType = snake.GetType();
 ```
 
-Now let's flip our snake's `ate` field to true. We will use reflection to create a `FieldInfo` object for the specific `ate` field within the `Snake` object. We create this info object by calling the `GetField` method of our new `snakeType` object.
+Now let's flip our snake's `ate` field to true. We will use reflection to create a `FieldInfo` object for the specific `ate` field within the `Snake` object. 
 
 ```cs
 // Use System.Reflection.FieldInfo object to discover the attributes of the field and provide access to its metadata
@@ -313,7 +314,7 @@ Since the flags can be `OR`ed together and it doesn't matter if a variable _does
 // https://learn.microsoft.com/en-us/dotnet/api/system.reflection.bindingflags?redirectedfrom=MSDN&view=net-7.0
  BindingFlags flags = BindingFlags.Instance
         | BindingFlags.Public
-		| BindingFlags.NonPublic
+				| BindingFlags.NonPublic
         | BindingFlags.Static;
 ```
 
