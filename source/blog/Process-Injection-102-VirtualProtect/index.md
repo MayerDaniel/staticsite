@@ -1,5 +1,5 @@
 # Process Injection 102: VirtualProtect
-_This blog post is a continuation of a series on Process Injection. To see part one click [here](../Process-Injection-101-Hello-World)!_
+_This blog post is a continuation of a series on Process Injection. To see part one click [here](../Process-Injection-101-Hello-World/)!_
 
 _The accompanying source files for this blog post are on [GitHub](https://github.com/MayerDaniel/ProcessInjection/tree/master/102)._
 
