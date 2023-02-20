@@ -292,7 +292,7 @@ We can now create a generic `Type` object for the type `Snake` in our code:
 Type snakeType = snake.GetType();
 ```
 
-Now let's flip our snake's `ate` field to true. We will use reflection to create a `FieldInfo` object for the specific `ate` field within the `Snake` object. 
+Now let's flip our snake's `ate` field to true. We will use reflection to create a `FieldInfo` object for the specific `ate` field within the `Snake` object.
 
 ```cs
 // Use System.Reflection.FieldInfo object to discover the attributes of the field and provide access to its metadata
@@ -391,7 +391,7 @@ Great, now every time you click your button in game, it will set `ate` to `true`
 
 Well done! You have hacked your first Unity game.
 
-While I have you though I may as well show you how to call functions as well. There is a `System.Reflection.MethodInfo` function that works similarly to `FieldInfo`, which you get by feeding the Type object's `GetMethod` function with a string of the function name and a BindingFlags object. You can then call the MethodInfo object's `Invoke` method for a given object and any arguments it needs. In this case there are no arguments so we just pass `null`.
+While I have you though I may as well show you how to call functions as well. There is a `System.Reflection.MethodInfo` function that works similarly to `FieldInfo`. You can then call the MethodInfo object's `Invoke` method for a given object and any arguments it needs. In this case there are no arguments so we just pass `null`.
 
 ```
 // MethodInfo/GetMethod is pretty much the same as FieldInfo/GetField for targeting methods in instantiated objects
