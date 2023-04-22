@@ -9,11 +9,8 @@ borrowed by replacing the contents of the 'source' folder.
 TODO: turn written links into hyperlinks automatically
 TODO: gitpython integration for tracking which pages need to be (re)generated
 TODO: gitpython integration for pushing to github pages
-TODO: do images work? - no
-TODO: some sort of header and footer? or just templating?
 TODO: autogenerating links to internal pages
 TODO: Fix cwd to always be based off of this file
-TODO: Autopopulate site photo folders from linking files on disk in the source
 """
 import glob
 import os
@@ -31,7 +28,8 @@ md = (
 )
 
 class SitePage:
-    """SitePage class that is instantiated for each file in the source dir.
+    """
+    SitePage class that is instantiated for each file in the source dir.
 
     HTML files will be mirrored in the same directory structure with the
     same name as their source markdown files.
@@ -49,21 +47,33 @@ class SitePage:
 
 
     def add_site_sources(self, html_doc):
+        """
+        Adds CSS
+        """
         css = '<link rel="stylesheet" href="/css/site.css">\n'
         return css + html_doc
 
     def add_highlight_js_tags(self, html_doc):
+        """
+        Adds syntax highlighting
+        """
         link_tag = '<link rel="stylesheet" href="/css/highlight.css">\n'
         script_tag = '<script src="/js/highlight.min.js"></script>\n'
         run_tag = '<script>hljs.highlightAll();</script>\n'
         return link_tag + script_tag + run_tag + html_doc
 
     def add_head_and_foot(self, html_doc):
+        """
+        Adds the header and footer to each page
+        """
         if self.path == Path('source/index.md'):
             return self.head + html_doc
         return self.head + html_doc + self.foot
 
     def personalize(self, html_doc):
+        """
+        Adds all the website-specific extra html
+        """
         out = self.add_head_and_foot(html_doc)
         out = self.add_site_sources(out)
         if "<code" in out:
@@ -72,7 +82,8 @@ class SitePage:
 
 
     def export(self):
-        """Writes generated markdown to its mirrored location within the
+        """
+        Writes generated markdown to its mirrored location within the
         'site' directory.
         """
         self.out.parent.mkdir(exist_ok=True, parents=True)
