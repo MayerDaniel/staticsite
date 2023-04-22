@@ -1,9 +1,9 @@
 body {
 		background-color: rgb(253,252,247);
 		font-family: Georgia;
-		margin-left: 5%;
-		margin-right: 5%;
-		margin-top: 10px;
+		font-size: 18px;
+		padding-left: 5%;
+		padding-right: 5%;
 		max-width: 85ch;
 		margin: 0 auto;
 		float: none;
