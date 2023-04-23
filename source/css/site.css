@@ -1,11 +1,18 @@
 body {
 		background-color: rgb(253,252,247);
 		font-family: Georgia;
-		padding-left: 5%;
-		padding-right: 5%;
+		font-size: 18px;
 		max-width: 85ch;
+		padding: 10px;
 		margin: 0 auto;
 		float: none;
+}
+
+@media only screen and (max-device-width: 600px) {
+        body {
+					-webkit-text-size-adjust:100%;
+					font-size: 34px;
+				}
 }
 
 img {
