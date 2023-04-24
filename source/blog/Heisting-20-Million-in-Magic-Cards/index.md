@@ -15,9 +15,9 @@ Tell 'em Tai:
 
 ## Intro
 
-Digital trading card games have put nerds in a bind. We used to be able to convince our life partners, and ourselves, that in some vague way we were really "investing" in collectibles that could be liquidated if needed. In recent years, though, digital card games like Hearthstone and its ilk have laid the facts bare for all to see: us card-game nerds are just gambling addicts with extra steps. It is about the rush of opening the packs, baby! Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of scarcity or value in a secondary market. 
+Digital trading card games have put nerds in a bind. With physical TCGs, we used to be able to convince our life partners, and ourselves, that in some vague way we were really "investing" in collectibles that could be liquidated if needed. In recent years, though, digital card games like Hearthstone and its ilk have laid the facts bare for all to see: us card-game nerds are just gambling addicts with extra steps. It is about the rush of opening the packs, baby! Not ownership of the cards. 
 
-The cards "owned" and "opened" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. Us nerds can change numbers in a database a lot more easily than we can rob a board game shop. So, let's take advantage of that!
+Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of scarcity or value in a secondary market. The cards "owned" and "opened" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. Us nerds can change numbers in a database a lot more easily than we can rob a board game shop. So, let's take advantage of that!
 
 ## Casing the joint
 
@@ -58,7 +58,7 @@ if (client_PurchaseOption != null) {
 }
 ```
 
-Seeing a price calculation being performed client-side made me begin the classic QA-engineer-beer-ordering workflow immediately:
+Seeing a client-side price calculation, I began the classic QA-engineer-beer-ordering workflow:
 
 <blockquote class="twitter-tweet tw-align-center" style="margin: auto;"><p lang="en" dir="ltr">A QA engineer walks into a bar. Orders a beer. Orders 0 beers. Orders 99999999999 beers. Orders a lizard. Orders -1 beers. Orders a ueicbksjdhd. <br><br>First real customer walks in and asks where the bathroom is. The bar bursts into flames, killing everyone.</p>&mdash; Brenan Keller (@brenankeller) <a href="https://twitter.com/brenankeller/status/1068615953989087232?ref_src=twsrc%5Etfw">November 30, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -94,7 +94,9 @@ Now that second bullet is a pretty big jump in reasoning, but I was willing to r
 
 ## The heist
 
-An arithmetic overflow occurs when the output of an operation is a value bigger than can be stored in the destination data type. In our case, we are talking about the `int` data type. In C#, an `int` is represented under the hood as 4 bytes, or 32 bits. In hex, the max value that this 4-byte value could be is `0xFFFFFFFF`, or `11111111111111111111111111111111` in binary. 
+Arithmetic overflow occurs when the output of an operation is a value bigger than can be stored in the destination data type. It is like chubby bunny, but with bits. In our case, the destination is the `int` data type. 
+
+In C#, an `int` is represented under the hood as 4 bytes, or 32 bits. In hex, the max value of the 4-byte value is `0xFFFFFFFF`, or `11111111111111111111111111111111` in binary. 
 
 What happens when you add `1` to `11111111111111111111111111111111`?
 
@@ -107,7 +109,7 @@ What happens when you add `1` to `11111111111111111111111111111111`?
 
  It should become `100000000000000000000000000000000`, but that is 33 bits - one bit more than what our data type allows. So instead, the most significant bit is dropped, leaving us with `00000000000000000000000000000000`. It rolls back over to zero. 
  
- **Small aside:** the `int` representation of `11111111111111111111111111111111` is actually `-1` in C# due to the use of [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) to allow the data type to store negative numbers. This means that the overflow kind of works as intended. When you add `1` to `-1`, both the underlying binary and the `int` representation zero out. `00000000000000000000000000000000` = `0`. But you don't need to worry about that. All you need to know is that if the output of an operation is greater than `0xFFFFFFFF`, the output value will essentially be `output % 0xFFFFFFFF`.
+ **Small aside:** the `int` representation of `0xFFFFFFFF` is actually `-1` in C# due to the use of [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) to allow the data type to store negative numbers. This means that the overflow kind of works as intended. When you add `1` to `-1`, both the underlying binary and the `int` representation zero out. `0x00000000` = `0`. But you don't need to worry about that. All you need to know is that if the output of an operation is greater than `0xFFFFFFFF`, the output value will essentially be `output % 0xFFFFFFFF`.
 
 So, with our new knowledge of arithmetic overflows, do you see how we are going to heist our Magic cards? Looking back at this line of code, I see two things:
 
@@ -118,28 +120,26 @@ purchaseV2Req.currencyQty = client_PurchaseOption.IntegerCost * quantity;
 * There aren't any checks for overflows
 * The user controls one of those variables
 
-So, if we are assuming that the server logic is similar to what is done on the client side, we should be able to overflow this integer by ordering an astronomically high number of packs. Let's plug some numbers in!
+Assuming that the server logic is similar to what is done on the client, we should be able to overflow this integer by ordering an astronomically high number of packs. Let's plug some numbers in!
 
-One pack of cards costs `200` gems. We can't change this, so it is a constant.
-
-We also can't change the rules of C#'s `int` data type. We know the max underlying value is `0xFFFFFFFF`.
-
-With that, we can figure out how many packs we'd need to order to overflow our order price back around past `0`, and only pay for the remainder. A Python interpeter will do just fine:
+One pack of cards costs `200` gems, and we know the max underlying value is `0xFFFFFFFF`. Therefore, we can figure out how many packs we'd need to order to overflow our order price back around past `0`, and only pay for the remainder. A Python interpeter will do just fine:
 
 ```python
 >>> (0xFFFFFFFF/200) + 1 # add one to round up to the nearest int that will overflow
 21474837
 ```
 
-We add `1` to the quotient to get the largest whole number that will surpass the overflow, since Python always rounds down when casting `float`s to `int`s. This means while we are ordering 21 million packs, our payment will be as close to `0` as feasibly possible. Potentially under the price of a single pack!
+We add `1` to the quotient to get the largest whole number that will surpass the overflow, since Python always rounds down when casting `float`s to `int`s. This means while we are ordering 21 million packs, our payment will be as close to `0` as feasibly possible. Potentially under the price of a single pack! 
 
-<hr>
+We could order a number of packs higher than `21474837` as well, but all that is going to do is make the remainder, the price we are going to pay, higher. That is, until you order a number that, modded with `0xFFFFFFFF`, will wrap around to `0` again - which would essentially be around the area of multiples of `21474837`.
 
-Oh, there's something else I fogot to mention. There's no way to actually submit bulk orders for an arbitrary number of packs in the UI. There's just a big button to buy a pack (and preset quantities of 10, 25, etc):
+## Pulling it off
+
+There's something else I fogot to mention. There's no way to actually submit bulk orders for an arbitrary number of packs in the UI. There's just a big button to buy a pack (and preset quantities of 10, 25, etc):
 
 ![pack](pack.png)
 
-But that's no problem, since we know the price of the item is `200` gems, we can just patch our binary with the appropriate opcodes to have the quantity hardcoded into our order! In C# it would look like this:
+But that's no problem, now that we know the order quantity needed to perform the overflow, we can just patch our binary with the appropriate opcodes to have the quantity hardcoded into our order! In C# it would look like this:
 
 ```cs
 ...
@@ -225,7 +225,7 @@ Another twist here, that I wasn't expecting, is that there are a finite number o
 
 And let me tell you, you hit the card limit looooooong before you are even through your first 10,000 packs for whatever set you bought. This then gives you an nigh-infinite trove of gems to go out and buy 21 million packs of each of the other sets with! Or buy cosmetics, or participate in events, or whatever. MTGA just became **truly** free-to-play!
 
-Except not, because I reported this vulnerability to them and it has been patched. Sorry everyone, but it is the only way I could make this blog without getting sued for damages! Plus the WotC security team is very nice to me whenever I submit a bug to them.
+Except not, because I reported this vulnerability to them and it has been patched. Shoutout to the WotC security and engineering teams for being lovely to work with and patching this bug in a timely manner!
 
 ## Conclusion
 
