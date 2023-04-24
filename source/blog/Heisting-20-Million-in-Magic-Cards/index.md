@@ -1,7 +1,7 @@
 # Heisting 20 Million Dollars' Worth of Magic: The Gathering Cards in a Single Request
 
 ### TLDR
-With a little bit of math, decompilation, and understanding of computer architecture, I used a user-controlled arithmetic overflow in Magic: The Gathering Arena to buy millions of card packs for "free" (only using the starting amount of in-game currency given to new accounts). 
+With a little bit of math, decompilation, and understanding of computer architecture, we are going to force a user-controlled arithmetic overflow to occur in Magic: The Gathering Arena, and use it to buy millions of card packs for "free" (only using the starting amount of in-game currency given to new accounts). 
 
 But the millions of dollars worth of digital cards isn't the reward here. The reward, hopefully, is knowledge. 
 
@@ -15,9 +15,9 @@ Tell 'em Tai:
 
 ## Intro
 
-**Digital trading card games** have put nerds in a bind. We used to be able to convince our life partners, and ourselves, that in some vague way we were really "investing" in collectibles that could be liquidated if needed. In recent years, though, digital card games like Hearthstone and its ilk have laid the facts bare for all to see: We are just gambling addicts with extra steps. Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of ownership or value in a secondary market. 
+Digital trading card games have put nerds in a bind. We used to be able to convince our life partners, and ourselves, that in some vague way we were really "investing" in collectibles that could be liquidated if needed. In recent years, though, digital card games like Hearthstone and its ilk have laid the facts bare for all to see: us card-game nerds are just gambling addicts with extra steps. It is about the rush of opening the packs, baby! Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of scarcity or value in a secondary market. 
 
-The cards "owned" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. Us nerds can change numbers in a database a lot more easily than we can rob a board game shop. So, let's take advantage of that!
+The cards "owned" and "opened" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. Us nerds can change numbers in a database a lot more easily than we can rob a board game shop. So, let's take advantage of that!
 
 ## Casing the joint
 
@@ -58,7 +58,7 @@ if (client_PurchaseOption != null) {
 }
 ```
 
-Seeing a price calculation being performed client-side made me immediately begin the classic QA-engineer-beer-ordering workflow:
+Seeing a price calculation being performed client-side made me begin the classic QA-engineer-beer-ordering workflow immediately:
 
 <blockquote class="twitter-tweet tw-align-center" style="margin: auto;"><p lang="en" dir="ltr">A QA engineer walks into a bar. Orders a beer. Orders 0 beers. Orders 99999999999 beers. Orders a lizard. Orders -1 beers. Orders a ueicbksjdhd. <br><br>First real customer walks in and asks where the bathroom is. The bar bursts into flames, killing everyone.</p>&mdash; Brenan Keller (@brenankeller) <a href="https://twitter.com/brenankeller/status/1068615953989087232?ref_src=twsrc%5Etfw">November 30, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -82,7 +82,7 @@ I then tried messing with `currencyQty`, the calculated price. I thought this wa
 }
 ```
 
-Ok, weird. That means that the client has to send a correctly calculated price in the purchase order, because the server validates the order by performing its own price calculation. While this left me stumped as to why the client-side calculation even exists, it meant I couldn't just tell the game to give me free cards, or negative cards, or whatever.
+Ok, weird. That means that the client has to send a correctly calculated price in the purchase order, because the server validates the order by performing its own price calculation. While this left me stumped as to why the client-side calculation even exists, it meant I couldn't just tell the game to give me free cards, or cards at a negative price, or anything else.
 
 But I wasn't ready to give up yet. The fact that I could see the logic of how this price calculation was made allowed me to make some assumptions about the server-side check:
 
@@ -101,13 +101,13 @@ What happens when you add `1` to `11111111111111111111111111111111`?
 ```txt
   11111111111111111111111111111111
 + 00000000000000000000000000000001
-----------------------------------
+---------------------------------
  100000000000000000000000000000000
 ```
 
  It should become `100000000000000000000000000000000`, but that is 33 bits - one bit more than what our data type allows. So instead, the most significant bit is dropped, leaving us with `00000000000000000000000000000000`. It rolls back over to zero. 
  
- Now, the `int` representation of `11111111111111111111111111111111` is actually `-1` in C# due to the use of [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) to allow the data type to store negative numbers. This means that the overflow kind of works as intended. When you add `1` to `-1`, both the underlying binary and the `int` representation zero out. `00000000000000000000000000000000` = `0`. But you don't need to worry about that. All you need to know is that if the output of an operation is greater that `0xFFFFFFFF`, the output value will essentially be `output % 0xFFFFFFFF`.
+ **Small aside:** the `int` representation of `11111111111111111111111111111111` is actually `-1` in C# due to the use of [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) to allow the data type to store negative numbers. This means that the overflow kind of works as intended. When you add `1` to `-1`, both the underlying binary and the `int` representation zero out. `00000000000000000000000000000000` = `0`. But you don't need to worry about that. All you need to know is that if the output of an operation is greater than `0xFFFFFFFF`, the output value will essentially be `output % 0xFFFFFFFF`.
 
 So, with our new knowledge of arithmetic overflows, do you see how we are going to heist our Magic cards? Looking back at this line of code, I see two things:
 
@@ -139,7 +139,7 @@ Oh, there's something else I fogot to mention. There's no way to actually submit
 
 ![pack](pack.png)
 
-But that's no problem, since we know the price of the item is 200 gems, we can just patch our binary with the appropriate opcodes to have the quantity hardcoded into our order! In C# it would look like this:
+But that's no problem, since we know the price of the item is `200` gems, we can just patch our binary with the appropriate opcodes to have the quantity hardcoded into our order! In C# it would look like this:
 
 ```cs
 ...
@@ -182,7 +182,7 @@ How much did that put us back? Well, we can do the math ourselves:
 105
 ```
 
-105 gems! Less than the cost of a single pack. We can check the purchase logs just to be sure though:
+`105` gems! Less than the cost of a single pack. We can check the purchase logs just to be sure though:
 
 ```json
 {
@@ -215,19 +215,21 @@ How much did that put us back? Well, we can do the math ourselves:
 
 Yup! In fact we get an extra gem off compared to our Python calculation. Not sure where that one got added or lost between the two calculations. 
 
-Each account in MTGA starts with 250 gems which can be used to get hooked on the delicious sensation of opening packs. This means that without spending any money, you can _really_ start filling out your collection. 
+Each account in MTGA starts with `250` gems which can be used to get hooked on the delicious sensation of opening packs. That means you could perform this exploit right off the bat with a new account, without spending any money. Now that's how you _really_ start filling out your collection fast! 
 
 ## A final twist
 
-Another twist here is that there are a finite number of cards per set, and you can only open 4 copies of each card before they become useless since you can't use more than 4 copies of a card in a deck. So what happens when you open so many packs that you reach the limit? I set up my autoclicker and found out. Once you cannot collect any more cards, the packs instead _refund you gems_
+Another twist here, that I wasn't expecting, is that there are a finite number of cards per set. There is also a cap on the number of copies of each card you can own: you can only open 4 copies of each card before they become useless since you can't use more than 4 copies of a card in a deck. So what happens when you open so many packs that you reach the limit? I set up my autoclicker and found out. Once you cannot collect any more cards, the packs instead _refund you gems_.
 
 ![free gems](gems.png)
 
 And let me tell you, you hit the card limit looooooong before you are even through your first 10,000 packs for whatever set you bought. This then gives you an nigh-infinite trove of gems to go out and buy 21 million packs of each of the other sets with! Or buy cosmetics, or participate in events, or whatever. MTGA just became **truly** free-to-play!
 
+Except not, because I reported this vulnerability to them and it has been patched. Sorry everyone, but it is the only way I could make this blog without getting sued for damages! Plus the WotC security team is very nice to me whenever I submit a bug to them.
+
 ## Conclusion
 
-I hope this has been an illustrative example of the power of a simple bug. Just because a bug is simple, don't assume that it isn't there. Most of the crazy zero-click remote code execution exploits used today also stem from simple missed checks on user-controlled variables. Ian Beer, one of the most talented vulnerability researchers in the world, sometimes just sits down and looks for `memmove` calls in the iOS kernel with controllable input. This led to him discovering [a wormable, zero-click, remote code execution exploit over radio](https://googleprojectzero.blogspot.com/2020/12/an-ios-zero-click-radio-proximity.html). But that stuff is the big leagues. For now, I am content just being able to build some new decks with my bug hunting :)
+I hope this has been an illustrative example of the power of a simple bug. Just because a bug is simple, don't assume that it isn't there. Most of the crazy zero-click remote code execution exploits used by government agencies today also stem from simple missed checks on user-controlled variables. Ian Beer, one of the most talented vulnerability researchers in the world, sometimes just sits down and looks for `memmove` calls in the iOS kernel with controllable input. This led to him discovering [a wormable, zero-click, remote code execution exploit over radio](https://googleprojectzero.blogspot.com/2020/12/an-ios-zero-click-radio-proximity.html). But that stuff is the big leagues. For now, I am content just being able to build some new decks with my bug hunting :)
 
-There is also something to be said here about the value of digital goods. Frankly, I have no dog in that fight. The reality is that they do and will continue to exist, and that things like this are a side effect of that reality. If you are looking for some more thoughts to chew on in this space, I recommend [_CONTENT: Selected Essays on Technology, Creativity, Copyright and the Future of the Future_ by Cory Doctorow](https://craphound.com/content/Cory_Doctorow_-_Content.html). It is published for free in its entirety that link.
+P.S. -- There is also something to be said here about the value of digital goods. Frankly, I am ambivalent. The reality is that digital goods do and will continue to exist, and things like this are a side effect of that reality. If you are looking for some more thoughts to chew on in this space, I recommend [_CONTENT: Selected Essays on Technology, Creativity, Copyright and the Future of the Future_ by Cory Doctorow](https://craphound.com/content/Cory_Doctorow_-_Content.html). It is published for free in its entirety that link.
 
