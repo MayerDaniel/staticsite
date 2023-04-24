@@ -46,7 +46,6 @@ class SitePage:
         self.out  = Path('site').joinpath(p)
 
 
-
     def add_site_sources(self, html_doc):
         """
         Adds CSS
@@ -102,6 +101,10 @@ if __name__ == '__main__':
             s.export()
         elif os.path.isfile(path):
             p = path.relative_to('source')
+            # ensure extension is lowercase because github.io doesn't track it
             dest = Path('site').joinpath(p)
+            file_extension = dest.suffix
+            lowercase_extension = file_extension.lower()
+            dest = dest.with_suffix(lowercase_extension)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             shutil.copy(path, dest)
