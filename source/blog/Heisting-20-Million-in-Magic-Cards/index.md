@@ -24,28 +24,28 @@ The cards "owned" by each account are all just numbers in a database somewhere. 
 MTGA is a Unity game, meaning that it is written in C#. C# decompiles extremely cleanly, making reverse engineering and manipulating the game logic a breeze. I covered this in more of a how-to format in [my last post](/blog/Unity-Hacking-101-Hacking-with-Reflection/), so I will skip it here and just get to the interesting part. Looking at the purchasing logic for in-game store items, the following function is used by the game to submit a purchase request using in-game currency:
 
 ```cs
-            ...
-            // PurchaseV2Req is essentially a JSON dictionary that later 
-            // gets marshalled and sent to the game server to make a purchase
-            PurchaseV2Req purchaseV2Req = new PurchaseV2Req();
-            purchaseV2Req.listingId = item.PurchasingId;
-            
-            // IMPORTANT LINE 1 - Sets quantity being ordered
-            purchaseV2Req.purchaseQty = quantity;
-			
-            purchaseV2Req.payType = Mercantile.ToAwsPurchaseCurrency(paymentType, this._platform);
-			
-            Client_PurchaseOption client_PurchaseOption = item.PurchaseOptions.FirstOrDefault(
-                (Client_PurchaseOption po) => po.CurrencyType == paymentType);
-			
-            // IMPORTANT LINE 2 - Calculates cost of order
-            purchaseV2Req.currencyQty = (
-                (client_PurchaseOption != null) ? client_PurchaseOption.IntegerCost : 0) * quantity;
-			
-            purchaseV2Req.customTokenId = customTokenId;
-			PurchaseV2Req request = purchaseV2Req;
-			...
-		}
+...
+// PurchaseV2Req is essentially a JSON dictionary that later 
+// gets marshalled and sent to the game server to make a purchase
+PurchaseV2Req purchaseV2Req = new PurchaseV2Req();
+purchaseV2Req.listingId = item.PurchasingId;
+
+// IMPORTANT LINE 1 - Sets quantity being ordered
+purchaseV2Req.purchaseQty = quantity;
+
+purchaseV2Req.payType = Mercantile.ToAwsPurchaseCurrency(paymentType, this._platform);
+
+Client_PurchaseOption client_PurchaseOption = item.PurchaseOptions.FirstOrDefault(
+    (Client_PurchaseOption po) => po.CurrencyType == paymentType);
+
+// IMPORTANT LINE 2 - Calculates cost of order
+purchaseV2Req.currencyQty = (
+    (client_PurchaseOption != null) ? client_PurchaseOption.IntegerCost : 0) * quantity;
+
+purchaseV2Req.customTokenId = customTokenId;
+PurchaseV2Req request = purchaseV2Req;
+...
+}
 ```
 
 When I took a look at this, it stood out to me that the request to purchase something from the store includes both the quantity being ordered _and_ a calculated price of what the order should cost, which is calculated by the client(!) by multiplying the unit price of whatever is being purchased by the quantity being ordered. If that second important line is confusing to you, it can be written in the following more-readable way:
@@ -142,28 +142,28 @@ Oh, there's something else I fogot to mention. There's no way to actually submit
 But that's no problem, since we know the price of the item is 200 gems, we can just patch our binary with the appropriate opcodes to have the quantity hardcoded into our order! In C# it would look like this:
 
 ```cs
-            ...
-            // PurchaseV2Req is essentially a JSON dictionary that later 
-            // gets marshalled and sent to the game server to make a purchase
-            PurchaseV2Req purchaseV2Req = new PurchaseV2Req();
-            purchaseV2Req.listingId = item.PurchasingId;
-            
-            // Important Line 1 - Sets quantity being ordered
-            purchaseV2Req.purchaseQty = quantity * 21474837;
-			
-            purchaseV2Req.payType = Mercantile.ToAwsPurchaseCurrency(paymentType, this._platform);
-			
-            Client_PurchaseOption client_PurchaseOption = item.PurchaseOptions.FirstOrDefault(
-                (Client_PurchaseOption po) => po.CurrencyType == paymentType);
-			
-            // Important Line 2 - Calculates cost of order
-            purchaseV2Req.currencyQty = (
-                (client_PurchaseOption != null) ? client_PurchaseOption.IntegerCost : 0) * quantity * 21474837;
-			
-            purchaseV2Req.customTokenId = customTokenId;
-			PurchaseV2Req request = purchaseV2Req;
-			...
-		}
+...
+// PurchaseV2Req is essentially a JSON dictionary that later 
+// gets marshalled and sent to the game server to make a purchase
+PurchaseV2Req purchaseV2Req = new PurchaseV2Req();
+purchaseV2Req.listingId = item.PurchasingId;
+
+// Important Line 1 - Sets quantity being ordered
+purchaseV2Req.purchaseQty = quantity * 21474837;
+
+purchaseV2Req.payType = Mercantile.ToAwsPurchaseCurrency(paymentType, this._platform);
+
+Client_PurchaseOption client_PurchaseOption = item.PurchaseOptions.FirstOrDefault(
+    (Client_PurchaseOption po) => po.CurrencyType == paymentType);
+
+// Important Line 2 - Calculates cost of order
+purchaseV2Req.currencyQty = (
+    (client_PurchaseOption != null) ? client_PurchaseOption.IntegerCost : 0) * quantity * 21474837;
+
+purchaseV2Req.customTokenId = customTokenId;
+PurchaseV2Req request = purchaseV2Req;
+...
+}
 ```
 And in case you're wondering why I didn't just recreate the purchase request in python or something, it is because the shop communication is over some sort of socket. It wasn't just a REST api and it didn't seem worth figuring out.
 
