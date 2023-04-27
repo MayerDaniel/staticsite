@@ -1,20 +1,37 @@
 body {
 		background-color: rgb(253,252,247);
 		font-family: Georgia;
-		font-size: 16px;
-		max-width: 85ch;
+		font-size: 24px;
+		max-width: 70ch;
 		padding-left: 10px;
 		padding-right: 10px;
 		margin: 0 auto;
 		float: none;
 }
 
+p {
+	line-height: 1.5 ;
+  }
+
 @media only screen and (max-device-width: 600px) {
         body {
 					-webkit-text-size-adjust:100%;
 					font-size: 34px;
-				}
+			}
 }
+
+/* ----------- Macbooks ----------- */
+@media screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (min-resolution: 192dpi) { 
+	body {
+		max-width: 70ch;
+		font-size: 18px;
+	}
+}
+
 
 img {
     padding: 0;
