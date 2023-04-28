@@ -21,7 +21,7 @@ Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively
 
 ## Casing the joint
 
-MTGA is a Unity game, meaning that it is written in C#. C# decompiles extremely cleanly, making reverse engineering and manipulating the game logic a breeze. I covered this in more of a how-to format in [my last post](/blog/Unity-Hacking-101-Hacking-with-Reflection/), so I will skip it here and just get to the interesting part. Looking at the purchasing logic for in-game store items, the following function is used by the game to submit a purchase request using in-game currency:
+MTGA is a Unity game, meaning that it is written in C#. C# decompiles extremely cleanly, making reverse engineering and manipulating the game logic a breeze. I covered this in more of a how-to format in [my last post](/writings/Unity-Hacking-101-Hacking-with-Reflection/), so I will skip it here and just get to the interesting part. Looking at the purchasing logic for in-game store items, the following function is used by the game to submit a purchase request using in-game currency:
 
 ```cs
 ...

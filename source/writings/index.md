@@ -1,4 +1,4 @@
-# Blog
+# Writings
 
 ![road](road.jpeg)
 

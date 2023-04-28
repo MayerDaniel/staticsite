@@ -12,7 +12,7 @@ During the jam, I chatted a bit with the developers on my team about my day job 
 
 ![The jam](jam.jpg)
 
-So there was no time or energy left for reverse engineering :(. But that means I get to make a blog for anyone to check out instead! And over the course of the jam I realized that Unity is a perfect place to start for game hacking/modding a few reasons:
+So there was no time or energy left for reverse engineering :(. But that means I get to make a tutorial for anyone to check out instead! And over the course of the jam I realized that Unity is a perfect place to start for game hacking/modding a few reasons:
 
 * Unity is written in C#, a programming language for the .NET framework, which allows us to make use of [Reflection](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection), a very powerful tool built into .NET that allows for the introspection and manipulation of running processes - we will talk more about this further down.
 
@@ -100,7 +100,7 @@ Ok, so it is a boolean, and it is a private variable belonging to the class `Sna
 
 ## Reflection is the coolest part of .NET
 
-Now,  in a game compiled in C, we would probably just find the struct of our instantiated `Snake` object once the game starts, then flip the bit associated with the `ate` boolean to true. Which is very cool and hackery and you can check out my other tutorial on [finding and altering offsets in memory](/blog/Process-Injection-102-VirtualProtect) to see how to do something like that. But in .NET you can do something even cooler and hackery-er. You can write code that finds, reads, and alters instantiated objects as a built-in feature of .NET!
+Now,  in a game compiled in C, we would probably just find the struct of our instantiated `Snake` object once the game starts, then flip the bit associated with the `ate` boolean to true. Which is very cool and hackery and you can check out my other tutorial on [finding and altering offsets in memory](/writings/Process-Injection-102-VirtualProtect) to see how to do something like that. But in .NET you can do something even cooler and hackery-er. You can write code that finds, reads, and alters instantiated objects as a built-in feature of .NET!
 
 Using reflection, our basic game plan will be this:
 
@@ -134,7 +134,7 @@ When clicking through the options of creating your project, ensure that on the "
 
 ### Loader Boilerplate
 
-Now, we will create our boiler plate loader. This is the class expected by our injector, and it mainly just creates a class from another namespace we will define and put all of our cheat logic in. This boilerplate is from a great primer on Unity hacking posted on Unknown Cheats [HERE](https://www.unknowncheats.me/forum/unity/285864-beginners-guide-hacking-unity-games.html) - which was a really great resource for me. Honestly most of this blog post is redundant information from that post except for how to use reflection. Anyway, here's the boilerplate:
+Now, we will create our boiler plate loader. This is the class expected by our injector, and it mainly just creates a class from another namespace we will define and put all of our cheat logic in. This boilerplate is from a great primer on Unity hacking posted on Unknown Cheats [HERE](https://www.unknowncheats.me/forum/unity/285864-beginners-guide-hacking-unity-games.html) - which was a really great resource for me. Honestly most of this post is redundant information from that post except for how to use reflection. Anyway, here's the boilerplate:
 
 
 ```cs

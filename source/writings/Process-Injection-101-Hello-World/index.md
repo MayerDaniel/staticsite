@@ -1,5 +1,5 @@
 # Process Injection 101: Hello World
-_The accompanying source files for this blog post are on [GitHub](https://github.com/MayerDaniel/ProcessInjection/tree/master/101)._
+_The accompanying source files for this post are on [GitHub](https://github.com/MayerDaniel/ProcessInjection/tree/master/101)._
 
 Process injection is the act of writing arbitrary code into an already-running process and executing it. It is used frequently by red teamers, malware authors, and game hackers because it is a powerful detection evasion technique, can gain you read/write/execute access to sensitive information residing in the target process, and allows you to alter that process's behavior. As a reverse engineer, I have looked at quite a few process injection techniques, and _loosely_ understand how they work, but I have never had to implement one.
 

@@ -40,6 +40,7 @@ class SitePage:
         self.text = path.open('r').read()
         self.head = open('./components/header.html', 'r').read()
         self.foot = open('./components/footer.html', 'r').read()
+        self.webrings = open('./components/webrings.html', 'r').read()
         self.html = self.personalize(md.render(self.text))
         #temporary path transormations to help create mirrored html file
         p         = path.relative_to('source').with_suffix('.html')
@@ -67,8 +68,10 @@ class SitePage:
         Adds the header and footer to each page
         """
         if self.path == Path('source/index.md'):
-            return self.head + html_doc
-        return self.head + html_doc + self.foot
+            out = self.head + html_doc
+        else:
+            out = self.head + html_doc + self.foot
+        return out + self.webrings
 
     def personalize(self, html_doc):
         """
