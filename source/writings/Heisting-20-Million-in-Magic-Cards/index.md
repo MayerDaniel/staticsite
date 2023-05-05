@@ -17,7 +17,7 @@ Tell 'em Tai:
 
 Digital trading card games have put nerds in a bind. With physical TCGs, we used to be able to convince our life partners, and ourselves, that in some vague way we were really "investing" in collectibles that could be liquidated if needed. In recent years, though, digital card games like Hearthstone and its ilk have laid the facts bare for all to see: us card-game nerds are just gambling addicts with extra steps. It is about the rush of opening the packs, baby! Not ownership of the cards. 
 
-Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of scarcity or value in a secondary market. The cards "owned" and "opened" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. Us nerds can change numbers in a database a lot more easily than we can rob a board game shop. So, let's take advantage of that!
+Games like Magic: The Gathering Arena (MTGA) and Hearthstone are still massively popular and huge financial successes without any illusion of scarcity or value in a secondary market. The cards "owned" and "opened" by each account are all just numbers in a database somewhere. That change in ownership model is a double-edged sword though. We nerds can change numbers in a database much more easily than we can rob a board game shop. So, let's take advantage of that!
 
 ## Casing the joint
 
@@ -48,7 +48,7 @@ PurchaseV2Req request = purchaseV2Req;
 }
 ```
 
-When I took a look at this, it stood out to me that the request to purchase something from the store includes both the quantity being ordered _and_ a calculated price of what the order should cost, which is calculated by the client(!) by multiplying the unit price of whatever is being purchased by the quantity being ordered. If that second important line is confusing to you, it can be written in the following more-readable way:
+When I took a look at this, it stood out to me that a request to purchase something from the store includes both the quantity being ordered _and_ a calculated price of what the order should cost. What's more, the price is calculated by the client(!) by multiplying the unit price of whatever is being purchased by the quantity being ordered. If that second important line is confusing to you, here it is in a more readable way:
 
 ```cs
 if (client_PurchaseOption != null) {
@@ -69,11 +69,11 @@ First I tried messing with the `purchaseQty` field by setting it to a negative n
 accountBalance -= client_PurchaseOption.IntegerCost * quantity
 ```
 
-If I purchased -1 card packs from the store, at a price of 200 gems (MTGA's in-game currency), `purchaseV2Req.currencyQty` would equal -200. Subtracting that from my account balance would give me more money!
+If I purchased -1 card packs from the store, at a price of `200` gems (MTGA's in-game currency), `purchaseV2Req.currencyQty` would equal `-200`. Subtracting that from my account balance would give me more money!
 
-This did not work. The server checks to make sure that you are ordering a quantity greater than 0, and prevents the purchase from going through if not.
+This did not work. The server checks to make sure that you are ordering a quantity greater than `0`, and prevents the purchase from going through if not.
 
-I then tried messing with `currencyQty`, the calculated price. I thought this was going to be a winner and that I would be able to purchase whatever I wanted for 0 gems. No dice there either. If I tried to change the calculated price, I would get the following error back, due to a mismatch with a price calculation performed server-side:
+I then tried messing with `currencyQty`, the calculated price. I thought this was going to be a winner and that I would be able to purchase whatever I wanted for `0` gems. No dice there either. If I tried to change the calculated price, I would get the following error back, due to a mismatch with a price calculation performed server-side:
 
 ```json
 {
@@ -131,11 +131,11 @@ One pack of cards costs `200` gems, and we know the max underlying value is `0xF
 
 We add `1` to the quotient to get the largest whole number that will surpass the overflow, since Python always rounds down when casting `float`s to `int`s. This means while we are ordering 21 million packs, our payment will be as close to `0` as feasibly possible. Potentially under the price of a single pack! 
 
-We could order a number of packs higher than `21474837` as well, but all that is going to do is make the remainder, the price we are going to pay, higher. That is, until you order a number that, modded with `0xFFFFFFFF`, will wrap around to `0` again - which would essentially be around the area of multiples of `21474837`.
+We could order a number of packs higher than `21474837` as well, but all that is going to do is make the remainder, the price we are going to pay, higher. That is, until you order a number that, when modded with `0xFFFFFFFF`, will wrap around to `0` again - which would essentially be around the area of multiples of `21474837`.
 
 ## Pulling it off
 
-There's something else I fogot to mention. There's no way to actually submit bulk orders for an arbitrary number of packs in the UI. There's just a big button to buy a pack (and preset quantities of 10, 25, etc):
+There's something else I forgot to mention. There's no way to actually submit bulk orders for an arbitrary number of packs in the UI. There's just a big button to buy a pack (and preset quantities of 10, 25, etc):
 
 ![pack](pack.png)
 
@@ -165,7 +165,7 @@ PurchaseV2Req request = purchaseV2Req;
 ...
 }
 ```
-And in case you're wondering why I didn't just recreate the purchase request in python or something, it is because the shop communication is over some sort of socket. It wasn't just a REST api and it didn't seem worth figuring out.
+(And in case you're wondering why I didn't just recreate the purchase request in python or something, it is because the shop communication is over some sort of socket. It wasn't just a REST api and it didn't seem worth figuring out.)
 
 So with the binary patched, lets click our button and buy a pack...
 
@@ -225,7 +225,7 @@ Another twist here, that I wasn't expecting, is that there are a finite number o
 
 And let me tell you, you hit the card limit looooooong before you are even through your first 10,000 packs for whatever set you bought. This then gives you an nigh-infinite trove of gems to go out and buy 21 million packs of each of the other sets with! Or buy cosmetics, or participate in events, or whatever. MTGA just became **truly** free-to-play!
 
-Except not, because I reported this vulnerability to them and it has been patched. Shoutout to the WotC security and engineering teams for being lovely to work with and patching this bug in a timely manner!
+(Except not, because I reported this vulnerability to them and it has been patched. Shoutout to the WotC security and engineering teams for being lovely to work with and patching this bug in a timely manner!)
 
 ## Conclusion
 
