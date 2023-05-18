@@ -289,7 +289,7 @@ And with that, you've done it! All that is left is to identify the PID of your t
 
 ![Injected!](injected.png "Console Application Project in VS")
 
-Congrats, you have now run code in the address space of another process! In the [next tutorial](https://www.mayer.cool/2020/04/20/Process-Injection-102-VirtualProtect/), explore how to modify the behavior of the process you've injected into.
+Congrats, you have now run code in the address space of another process! In the [next tutorial](/writings/Process-Injection-102-VirtualProtect/), explore how to modify the behavior of the process you've injected into.
 
 You can find all of the components necessary to recreate this blog [here](https://github.com/MayerDaniel/ProcessInjection/tree/master/101).
 
