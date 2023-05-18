@@ -17,6 +17,7 @@ import glob
 import os
 import sys
 import shutil
+import re
 
 from markdown_it import MarkdownIt
 from pathlib import Path
@@ -38,7 +39,8 @@ class SitePage:
     def __init__(self, path):
         self.path = path
         self.text = path.open('r').read()
-        self.head = open('./components/header.html', 'r').read()
+        self.head = open('./components/head.html', 'r').read()
+        self.header = open('./components/header.html', 'r').read()
         self.foot = open('./components/footer.html', 'r').read()
         self.webrings = open('./components/webrings.html', 'r').read()
         self.html = self.personalize(md.render(self.text))
@@ -63,26 +65,38 @@ class SitePage:
         run_tag = '<script>hljs.highlightAll();</script>\n'
         return link_tag + script_tag + run_tag + html_doc
 
-    def add_head_and_foot(self, html_doc):
+    def add_header_and_footer(self, html_doc):
         """
         Adds the header and footer to each page
         """
         if self.path == Path('source/index.md'):
-            out = self.head + html_doc
+            out = self.header + html_doc
         else:
-            out = self.head + html_doc + self.foot
+            out = self.header + html_doc + self.foot
         return out + self.webrings
+
+    def add_head(self, html_doc):
+        """
+        Adds html <head> tag with metadata
+        """
+        title = 'mayer.cool'
+        match = re.search('<h1>(.*?)</h1>', html_doc)
+        if match:
+            title = match.group(1)
+        head = self.head.replace('{title}', title)
+        return head + html_doc
+
 
     def personalize(self, html_doc):
         """
         Adds all the website-specific extra html
         """
-        out = self.add_head_and_foot(html_doc)
+        out = self.add_header_and_footer(html_doc)
         out = self.add_site_sources(out)
         if "<code" in out:
             out = self.add_highlight_js_tags(out)
+        out = self.add_head(out)
         return out
-
 
     def export(self):
         """
