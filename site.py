@@ -43,10 +43,10 @@ class SitePage:
         self.header = open('./components/header.html', 'r').read()
         self.foot = open('./components/footer.html', 'r').read()
         self.webrings = open('./components/webrings.html', 'r').read()
-        self.html = self.personalize(md.render(self.text))
         #temporary path transormations to help create mirrored html file
-        p         = path.relative_to('source').with_suffix('.html')
-        self.out  = Path('site').joinpath(p)
+        self.p    = path.relative_to('source').with_suffix('.html')
+        self.out  = Path('site').joinpath(self.p)
+        self.html = self.personalize(md.render(self.text))
 
 
     def add_site_sources(self, html_doc):
@@ -84,6 +84,7 @@ class SitePage:
         if match:
             title = match.group(1)
         head = self.head.replace('{title}', title)
+        head = head.replace('{path}', str(self.p))
         return head + html_doc
 
 
