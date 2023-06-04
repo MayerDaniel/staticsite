@@ -70,7 +70,7 @@ I was totally surprised by this, because it means that a (mostly) fully-function
 
 ![Corner Case 1](corner1.png)
 
-Here's my personal favorite, it is reminiscent of the leaked [Valve](https://www.youtube.com/watch?v=k238XpMMn38) and [Yandex](youtube.com/watch?v=k9uvdTHYNHk) source code comments:
+Here's my personal favorite, it is reminiscent of the leaked [Valve](https://www.youtube.com/watch?v=k238XpMMn38) and [Yandex](https://www.youtube.com/watch?v=k9uvdTHYNHk) source code comments:
 
 ![Corner Case 2](corner2.png)
 
