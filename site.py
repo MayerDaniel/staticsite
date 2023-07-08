@@ -14,6 +14,7 @@ TODO: autogenerating links to internal pages
 TODO: Fix cwd to always be based off of this file
 """
 import glob
+import imghdr
 import os
 import sys
 import shutil
@@ -21,7 +22,10 @@ import re
 
 from markdown_it import MarkdownIt
 from pathlib import Path
+from PIL import Image
 
+# maximum pixel size for images
+MAX_IMAGE_WIDTH = 1200
 
 md = (
     MarkdownIt()
@@ -107,6 +111,40 @@ class SitePage:
         self.out.parent.mkdir(exist_ok=True, parents=True)
         self.out.write_text(self.html)
 
+def copy_file(path):
+    '''
+    Helper method to move over everything that isn't an image, since those have
+    to be compressed
+    '''
+    p = path.relative_to('source')
+    # ensure extension is lowercase because github.io doesn't track it
+    dest = Path('site').joinpath(p)
+    file_extension = dest.suffix
+    lowercase_extension = file_extension.lower()
+    dest = dest.with_suffix(lowercase_extension)
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    shutil.copy(path, dest)
+
+def copy_image(path):
+    '''
+    Image compression helper. Repeat myself a little from the method before,
+    may be something to optimize later
+    '''
+    # Compress images of arbitrary format
+    p = path.relative_to('source')
+    # ensure extension is lowercase because github.io doesn't track it
+    dest = Path('site').joinpath(p)
+    file_extension = dest.suffix
+    lowercase_extension = file_extension.lower()
+    dest = dest.with_suffix(lowercase_extension)
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    image = Image.open(path)
+    width, height = image.size
+    aspectratio = width / height
+    newheight = MAX_IMAGE_WIDTH / aspectratio
+    image = image.resize((MAX_IMAGE_WIDTH, round(newheight)))
+    image.save(dest, optimize=True, quality=85)
+
 
 
 if __name__ == '__main__':
@@ -118,11 +156,7 @@ if __name__ == '__main__':
             s = SitePage(path)
             s.export()
         elif os.path.isfile(path):
-            p = path.relative_to('source')
-            # ensure extension is lowercase because github.io doesn't track it
-            dest = Path('site').joinpath(p)
-            file_extension = dest.suffix
-            lowercase_extension = file_extension.lower()
-            dest = dest.with_suffix(lowercase_extension)
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-            shutil.copy(path, dest)
+            if imghdr.what(path):
+                copy_image(path)
+            else:
+                copy_file(path)
