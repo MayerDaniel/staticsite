@@ -1,6 +1,6 @@
 # Text Your Friends Choose-Your-Own-Adventure Games with iMessage and Twine
 
-> The code associated with this blog post can be found [HERE](https://github.com/MayerDaniel/twine-text)
+The code associated with this blog post can be found [HERE](https://github.com/MayerDaniel/twine-text)
 
 ### TLDR 
 
