@@ -6,8 +6,8 @@
 
 iMessage works as a great [Twine game](https://twinery.org/) interface because the iMessage reactions give the reader up six options to choose from when reacting to a given message. So long as you have each node of your story have less than six options, you can use [this python script](https://github.com/MayerDaniel/twine-text) on a Mac to turn any Twine game into a fun adventure you can text to your friends, where they use the reactions to chose their own adventure!
 
-![example](example.jpg)
-The end result looks like this - the player chooses the appropriate to reaction to make their selection and get the next prompt. In this case, the player used the "love" reaction to choose the first option. The response is truncated due to the phone interface, but you get the gist.
+![example](example.png)
+The end result looks like this - the player chooses the appropriate to reaction to make their selection and get the next prompt. In this case, the player used the "love" reaction to choose the first option. The response is truncated due to the images being so big, but you get the gist.
 
 <hr>
 
@@ -70,9 +70,10 @@ python3 start_adventure.py example_twine.json
 ```
 Change `example_twine.json` to your Twine's json file to use your adventure instead of the example!
 
-And there you have it! The script will then monitor those numbers for incoming reactions and send the appropriate next choice.
+And there you have it! The script will then monitor those numbers for incoming reactions and send the appropriate next choice. Here's what it looks like when someone plays the example Twine game:
 
-I hope that this program brings some joy into your life. Small little "toy" programs like this help me remember how cool it is that we can control computers, now that they are so ubiquitous. Maybe it helps you ask out a cutie on a date, or lets an old friend "win" a lunch on you! 
+![example2](example2.png)
+I hope that this program brings some small joy into your life. Little "toy" programs like this help me remember how cool it is that we can control computers, now that they are so ubiquitous. Maybe it can help you ask out a cutie on a date, or let an old friend "win" a lunch on you! 
 
 Thanks for reading, and [don't forget to sign my guestbook!](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57)
 
