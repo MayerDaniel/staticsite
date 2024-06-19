@@ -4,7 +4,7 @@ The code associated with this blog post can be found [HERE](https://github.com/M
 
 ### TLDR 
 
-iMessage works as a great [Twine game](https://twinery.org/) interface because the iMessage reactions give the reader up six options to choose from when reacting to a given message. So long as each node of your story has less than six branches, you can use [this python script](https://github.com/MayerDaniel/twine-text) on a Mac to turn any Twine game into a fun adventure you can text to your friends, where they use the reactions to chose their own adventure!
+iMessage works as a great [Twine game](https://twinery.org/) interface because the iMessage reactions give the reader up to six options to choose from when reacting to a given message. So long as each node of your story has less than six branches, you can use [this python script](https://github.com/MayerDaniel/twine-text) on a Mac to turn any Twine game into a fun adventure you can text to your friends, where they use the reactions to chose their own adventure!
 
 ![example2](example2.png)
 The end result looks like this - the player chooses the appropriate to reaction to make their selection and get the next prompt.
