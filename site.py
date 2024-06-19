@@ -143,6 +143,7 @@ def copy_image(path):
     aspectratio = width / height
     newheight = MAX_IMAGE_WIDTH / aspectratio
     image = image.resize((MAX_IMAGE_WIDTH, round(newheight)))
+    # Saving the image
     image.save(dest, optimize=True, quality=85)
 
 
