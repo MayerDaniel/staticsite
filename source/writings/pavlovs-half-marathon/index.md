@@ -33,9 +33,55 @@ Well, what am I but another food-motivated, dumb animal? It was time to associat
 
 #### Need a Dispenser Here!
 
-I knew I would need to get a dispenser that I could easily interoperate with, so I sought out to find the shittiest, most cheaply made looking IOT dog food dispenser on Amazon. My rationale was that it would have the worst security around whatever protocol it used to trigger the feeding, so I could easily trigger it when I wanted to. I landed on [this one](https://www.amazon.com/dp/B0CQL2KH7R?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1) because I could see the app in the photo and boy did it look like the right vibe:
+I knew I would need to get a dispenser that I could easily interoperate with, so I sought out to find the shittiest, most cheaply made looking IOT dog food dispenser on Amazon. My rationale was that it would have the worst security around whatever protocol it used to trigger the feeding, so I could easily replay whatver data was being sent to it when I wanted to. I landed on [this one](https://www.amazon.com/dp/B0CQL2KH7R?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1) because I could see the app in the photo and boy did it look like the right vibe:
 
 ![app](app.png)
+
+Turns out, I didn't have to do any reverse engineering or MitM traffic at all! This dog feeder happened to be part of the [Smart Life](https://ismartlife.me/) ecosystem (I don't know if that is the real website). Smart Life is an offshoot of [Tuya](https://www.tuya.com/), and smart home product company with a fair amount of developer support! Setting up some form of interoperability with it ended up being super easy. Thanks to the hard work of the developers behind [tinytuya](https://github.com/jasonacox/tinytuya)
+
+#### tinytuya 
+
+[tinytuya](https://github.com/jasonacox/tinytuya) is a Python module designed to allow programtic control of Tuya devices via Python. The UX of this Python module is incredible. There is a mildly convoluted setup process you need to go through to get you device's "secret key" to allow for the use of tinytuya, but the documentation is verbose and easy to follow, and the module even comes with both a [setup wizard](https://github.com/jasonacox/tinytuya?tab=readme-ov-file#setup-wizard---getting-local-keys) that will scan your local net to find any Tuya devices. Once everything was set up, I could dispense food at will using the following script:
+
+```python
+# Connect to Tuya Cloud
+c = tinytuya.Cloud(
+        apiRegion="us", 
+        apiKey="XXXXXXXXXXXXXXXXXXXXXXXX", 
+        apiSecret="XXXXXXXXXXXXXXXXXXXXXXXX", 
+        apiDeviceID="XXXXXXXXXXXXXXXXXXXXXXXX")
+
+# Display list of devices
+devices = c.getdevices()
+print("Device List: %r" % devices)
+
+# Select a Device ID to Test
+id = "XXXXXXXXXXXXXXXXXXXXXXXX"
+
+# Display Properties of Device
+result = c.getproperties(id)
+print("Properties of device:\n", result)
+
+# Display Status of Device
+result = c.getstatus(id)
+print("Status of device:\n", result)
+
+# Send Command - Dog Food!
+commands = {
+    "commands": [
+        {"code": "manual_feed", "value": 1},
+    ]
+}
+print("Sending command...")
+result = c.sendcommand(id,commands)
+print("Results\n:", result)
+```
+
+Note that this goes through their "cloud" service, which means you have to have this device connected to the internet which I know skeeves some folks out. If you wanted to have this thing completely isolated though, you could have a no-internet subnet with this device on it so long as the device you are going to run the script on has line-of-sight. The cool thing about tinytuya is that they have also implemented a local-only protocol, so you can send commands just within your LAN. This is what I ended up using for my final application, but I didn't take any precaution with walling off the dog feeder. If it port scanned my house at some point so be it. 
+
+#### Strava
+
+The Strava API is also quite friendly, 
 
 
 
