@@ -23,7 +23,7 @@ Part of understanding that I am now an adult meant readjusting what it means to 
 
 The problem is that I have a love-hate relationship with running. I used to be a fat kid, and I changed that the summer before going to college by running along the streetcar track every day in New Orleans's balmy 100-degree, 100% humidity days at noon. It was the most successful weight loss regimine I ever had, and I'm happy to say I've never needed another one like it. That said, it did not instill a fondness for running in me. I still can't listen to my 2014 running playlist without feeling mildly heat struck.
 
-<iframe width="560" height="315" src="http://www.youtube.com/embed/IGgBWghFgZQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IGgBWghFgZQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 <p style="font-size: .8em;">This is the sound of me never wearing cargo shorts again.</p>
 
@@ -31,7 +31,7 @@ I knew I had to do something different this time. Running was no longer a means 
 
 I used to work as a Zoo. Zoo keepers and vets have to get animals of varying intelligence (Giraffes are like a house for sale - the lights are on but nobody's home) to move certain places and do certain things, like stay on a scale to get weighed. They did this by target training the animals.
 
-<iframe width="560" height="315" src="http://www.youtube.com/embed/ylYwif3it1Y" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ylYwif3it1Y" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 You can get animals to do basic things like touch their nose to a target if they know they will get food after doing it. This is due to the proven principles of classical conditioning, whereby you can get an animal to associate neutral stimuli (the wand) with a desired response (touch nose to wand) by rewarding them with positive reinforcement (food) every time they do the desired response. 
 
