@@ -26,6 +26,7 @@ from PIL import Image
 
 # maximum pixel size for images
 MAX_IMAGE_WIDTH = 1200
+MAX_IMAGE_HEIGHT = 900
 
 md = (
     MarkdownIt()
@@ -127,23 +128,38 @@ def copy_file(path):
 
 def copy_image(path):
     '''
-    Image compression helper. Repeat myself a little from the method before,
-    may be something to optimize later
+    Image compression helper. Compresses images of arbitrary format while ensuring
+    they do not exceed the specified max width and max height.
     '''
     # Compress images of arbitrary format
     p = path.relative_to('source')
-    # ensure extension is lowercase because github.io doesn't track it
+    # Ensure extension is lowercase because GitHub.io doesn't track it
     dest = Path('site').joinpath(p)
     file_extension = dest.suffix
     lowercase_extension = file_extension.lower()
     dest = dest.with_suffix(lowercase_extension)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
+    
+    # Open the image
     image = Image.open(path)
     width, height = image.size
     aspectratio = width / height
-    newheight = MAX_IMAGE_WIDTH / aspectratio
-    image = image.resize((MAX_IMAGE_WIDTH, round(newheight)))
+    
+    # Calculate scaling factors for width and height
+    width_scale = MAX_IMAGE_WIDTH / width
+    height_scale = MAX_IMAGE_HEIGHT / height
+
+    # Determine the scaling factor to ensure the image fits within both max width and max height
+    scale_factor = min(width_scale, height_scale)
+
+    # If the scale factor is less than 1, the image is being scaled down
+    if scale_factor < 1:
+        new_width = int(width * scale_factor)
+        new_height = int(height * scale_factor)
+        image = image.resize((new_width, new_height))
+    
     # Saving the image
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
     image.save(dest, optimize=True, quality=85)
 
 
