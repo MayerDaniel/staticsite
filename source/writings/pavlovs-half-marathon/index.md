@@ -1,25 +1,4 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<style>
-    /* Video container CSS */
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        height: 0;
-        overflow: hidden;
-        max-width: 100%;
-        background: #000; /* Optional: adds a black background */
-    }
-
-    /* Make iframe responsive */
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-</style>
-
 # Pavlov's Half Marathon: Training Myself to Run More with Classical Conditioning
 
 ## TLDR
@@ -44,10 +23,7 @@ Part of understanding that I am now an adult meant readjusting what it means to 
 
 The problem is that I have a love-hate relationship with running. I used to be a fat kid, and I changed that the summer before going to college by running along the streetcar track every day in New Orleans's balmy 100-degree, 100% humidity days at noon. It was the most successful weight loss regimine I ever had, and I'm happy to say I've never needed another one like it. That said, it did not instill a fondness for running in me. I still can't listen to my 2014 running playlist without feeling mildly heat struck.
 
-<object style="display: block; margin: 0 auto;">
-    <param name="movie" value="http://www.youtube.com/v/IGgBWghFgZQ"></param>
-    <embed src="http://www.youtube.com/v/IGgBWghFgZQ" width="560" height="315" style="display: block; margin: 0 auto;" type="application/x-shockwave-flash"></embed>
-</object>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/IGgBWghFgZQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 <p style="font-size: .8em;">This is the sound of me never wearing cargo shorts again.</p>
 
@@ -55,10 +31,7 @@ I knew I had to do something different this time. Running was no longer a means 
 
 I used to work as a Zoo. Zoo keepers and vets have to get animals of varying intelligence (Giraffes are like a house for sale - the lights are on but nobody's home) to move certain places and do certain things, like stay on a scale to get weighed. They did this by target training the animals.
 
-<object style="display: block; margin: 0 auto;">
-    <param name="movie" value="http://www.youtube.com/v/ylYwif3it1Y"></param>
-    <embed src="http://www.youtube.com/v/ylYwif3it1Y" width="560" height="315" style="display: block; margin: 0 auto;" type="application/x-shockwave-flash"></embed>
-</object>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/ylYwif3it1Y" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 You can get animals to do basic things like touch their nose to a target if they know they will get food after doing it. This is due to the proven principles of classical conditioning, whereby you can get an animal to associate neutral stimuli (the wand) with a desired response (touch nose to wand) by rewarding them with positive reinforcement (food) every time they do the desired response. 
 
@@ -273,7 +246,7 @@ This one is pretty basic and I can only speak for myself, but I mostly do the sa
 
  I don't usually keep M&Ms in the house and am not in the habit of eating them, so I didn't feel a deep urge to "cheat". I instead was building a completely new habit where I ate M&Ms after achieving a goal. The wires never got crossed in my brain where the M&Ms became the goal, they became a small positive association, but that was it. Having a small positive association was all the difference though. See point 2:
 
-### We know what we want, but modern cost-benefit is out of wack
+### My brain's cost-benefit analysis is fried
 
 The world is designed to lure us into forming bad habits. Food companies, entertainment companies, brokerages, and just about everything else at this point has been hyper-optimized to form positive associations in our animal brain with consumption. This is a tough system to live in, because our aspirations are usually more nebulous than "feel good", which is what the products promise us. 
 
@@ -428,5 +401,4 @@ Since this whole quest is more to keep me healthy and in the habit than reaching
 
 I hope this makes you think more about how you could incentivize yourself to achieve your goals, and combat all the forces at work trying to steal away your time and attention. 
 
-Speaking of which, I have no advertising or analytics on my website (besides whatever the embeds bring in), so it would mean a lot if you [signed my guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57) if you enjoyed the reading! Thanks for stopping by.
-
+Speaking of which, I have no advertising or analytics on my website (besides whatever the embeds bring in for themselves), so it would mean a lot if you [signed my guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57) if you enjoyed the reading! Thanks for stopping by.
