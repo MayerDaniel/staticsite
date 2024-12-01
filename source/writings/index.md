@@ -2,6 +2,8 @@
 
 ![road](road.jpeg)
 
+[Pavlov's Half Marathon: Training Myself to Run More with Classical Conditioning](pavlovs-half-marathon/)
+
 [Text Your Friends Choose-Your-Own-Adventure Games with iMessage and Twine](imessage-text-adventure/)
 
 [I Hacked Magic the Gathering: Arena for a 100% Winrate](I-Hacked-Magic-the-Gathering/)
