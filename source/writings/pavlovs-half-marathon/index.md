@@ -9,7 +9,7 @@ I bought an IOT dog food dispenser, filled it with M&Ms, and made a script check
 This ended up being far and away the most effective running program I have ever implemented for myself. I now run long distances regularly, recently completed a half marathon (13.1 miles), and don't even use the M&M dispenser anymore. Kind of like how your dog still sits even though you don't give him a treat for doing so anymore!
 
 <video width="100%" controls>
-  <source src="./explainer.mp4" type="video/mp4">
+  <source src="./explainer.mp4#t=0.001" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -24,9 +24,7 @@ Part of understanding that I am now an adult meant readjusting what it means to 
 
 The problem is that I have a love-hate relationship with running. I used to be a fat kid, and I changed that the summer before going to college by running along the streetcar track every day in New Orleans's balmy 100-degree, 100% humidity days at noon. It was the most successful weight loss regimine I ever had, and I'm happy to say I've never needed another one like it. That said, it did not instill a fondness for running in me. I still can't listen to my 2014 running playlist without feeling mildly heat struck.
 
-<div style="position: relative; width: 100%; padding-top: 50%;">
-<iframe width="100%" src="https://www.youtube.com/embed/4wIGITl8hC4?si=0JzitkT5rAqJLhk0" title="YouTube video player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IGgBWghFgZQ?si=RAA8FHsw2aiDSpmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 <p style="font-size: .8em;">This is the sound of me never wearing cargo shorts again.</p>
 
@@ -34,9 +32,7 @@ I knew I had to do something different this time. Running was no longer a means 
 
 I used to work as a Zoo. Zoo keepers and vets have to get animals of varying intelligence (Giraffes are like a house for sale - the lights are on but nobody's home) to move certain places and do certain things, like stay on a scale to get weighed. They did this by target training the animals.
 
-<div style="position: relative; width: 100%; padding-top: 50%;">
-<iframe width="100%" src="https://www.youtube.com/embed/ylYwif3it1Y?si=obKa0mpA6GqaI3GF" title="YouTube video player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ylYwif3it1Y?si=ELwXu8rYXNLEhPOd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 You can get animals to do basic things like touch their nose to a target if they know they will get food after doing it. This is due to the proven principles of classical conditioning, whereby you can get an animal to associate neutral stimuli (the wand) with a desired response (touch nose to wand) by rewarding them with positive reinforcement (food) every time they do the desired response. 
 
