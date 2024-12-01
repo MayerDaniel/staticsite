@@ -1,4 +1,24 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+    /* Video container CSS */
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000; /* Optional: adds a black background */
+    }
+
+    /* Make iframe responsive */
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
 
 # Pavlov's Half Marathon: Training Myself to Run More with Classical Conditioning
 
@@ -24,7 +44,10 @@ Part of understanding that I am now an adult meant readjusting what it means to 
 
 The problem is that I have a love-hate relationship with running. I used to be a fat kid, and I changed that the summer before going to college by running along the streetcar track every day in New Orleans's balmy 100-degree, 100% humidity days at noon. It was the most successful weight loss regimine I ever had, and I'm happy to say I've never needed another one like it. That said, it did not instill a fondness for running in me. I still can't listen to my 2014 running playlist without feeling mildly heat struck.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/IGgBWghFgZQ?si=RAA8FHsw2aiDSpmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
+<object style="display: block; margin: 0 auto;">
+    <param name="movie" value="http://www.youtube.com/v/IGgBWghFgZQ"></param>
+    <embed src="http://www.youtube.com/v/IGgBWghFgZQ" width="560" height="315" style="display: block; margin: 0 auto;" type="application/x-shockwave-flash"></embed>
+</object>
 
 <p style="font-size: .8em;">This is the sound of me never wearing cargo shorts again.</p>
 
@@ -32,7 +55,10 @@ I knew I had to do something different this time. Running was no longer a means 
 
 I used to work as a Zoo. Zoo keepers and vets have to get animals of varying intelligence (Giraffes are like a house for sale - the lights are on but nobody's home) to move certain places and do certain things, like stay on a scale to get weighed. They did this by target training the animals.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ylYwif3it1Y?si=ELwXu8rYXNLEhPOd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
+<object style="display: block; margin: 0 auto;">
+    <param name="movie" value="http://www.youtube.com/v/ylYwif3it1Y"></param>
+    <embed src="http://www.youtube.com/v/ylYwif3it1Y" width="560" height="315" style="display: block; margin: 0 auto;" type="application/x-shockwave-flash"></embed>
+</object>
 
 You can get animals to do basic things like touch their nose to a target if they know they will get food after doing it. This is due to the proven principles of classical conditioning, whereby you can get an animal to associate neutral stimuli (the wand) with a desired response (touch nose to wand) by rewarding them with positive reinforcement (food) every time they do the desired response. 
 
@@ -402,5 +428,5 @@ Since this whole quest is more to keep me healthy and in the habit than reaching
 
 I hope this makes you think more about how you could incentivize yourself to achieve your goals, and combat all the forces at work trying to steal away your time and attention. 
 
-Speaking of which, I have no advertising or analytics on my website, so it would mean a lot if you [signed my guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57) if you enjoyed the reading! Thanks for stopping by.
+Speaking of which, I have no advertising or analytics on my website (besides whatever the embeds bring in), so it would mean a lot if you [signed my guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57) if you enjoyed the reading! Thanks for stopping by.
 
