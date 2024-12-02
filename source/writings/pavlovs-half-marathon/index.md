@@ -1,5 +1,5 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
-# Pavlov's Half Marathon: Training Myself to Run More with Classical Conditioning
+# I trained myself to run farther using the Strava API and an IOT dog food bowl full of M&Ms
 
 ## TLDR
 
