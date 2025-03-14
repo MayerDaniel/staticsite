@@ -158,6 +158,35 @@ Tinybones, Bauble Burgler is super fun to put in against self-discard decks. It 
 Have fun out there, it would warm my heart to run into a mirror of this deck on the ladder. An Arena export of my deck has been included below. Go get grifting! And please sign my [guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57)!
 
 ```
+Deck
+2 Archfiend of the Dross (ONE) 82
+3 Malcolm, Alluring Scoundrel (LCI) 63
+3 Coveted Falcon (MKM) 48
+3 Cut Down (DMU) 89
+4 Darkslick Shores (ONE) 250
+4 Spyglass Siren (LCI) 78
+3 Deep-Cavern Bat (LCI) 102
+2 Demonic Pact (AKR) 99
+3 Shifting Grift (OTJ) 66
+4 Gloomlake Verge (DSK) 260
+3 Preacher of the Schism (LCI) 113
+2 Greed's Gambit (BIG) 8
+3 Hopeless Nightmare (WOE) 95
+3 Unholy Annex // Ritual Chamber (DSK) 118
+6 Island (FDN) 275
+6 Swamp (ZNR) 382
+4 Undercity Sewers (MKM) 270
+2 Withering Torment (DSK) 124
+
+Sideboard
+1 Tinybones, Bauble Burglar (FDN) 72
+3 Spell Pierce (NEO) 80
+2 Dreams of Steel and Oil (BRO) 92
+1 Duress (ONE) 92
+1 Tinybones, Bauble Burglar (FDN) 72
+3 Malicious Eclipse (LCI) 111
+1 Duress (ONE) 92
+3 Ghost Vacuum (DSK) 248
 ```
 
 
