@@ -2,6 +2,8 @@
 
 ## Video
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UViPHzkfC0A" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin-when-cross-origin" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
+
 ## TL;DR
 
 Christmas movies across time have taught us one thing. It is better to give than to receive. We are going to ensure that is true on the standard ladder by making sure _nobody_ wants to receive what we are giving. It is time to bring bad gifts and bad trades to standard, baby!
@@ -153,7 +155,9 @@ Tinybones, Bauble Burgler is super fun to put in against self-discard decks. It 
 
 [[Tinybones, Bauble Burgler]]
 
-## Good Luck!
+## Parting Notes
+
+One last thing I wanted to say: There's a bunch of three-of's and two-of's in the sideboard. The goal of this deck is to be seeing a lot of cards, so I'm more concerned with facilitating digging for what I need as opposed to consistency. It may seem janky but it has been going ok for me thus far! Apologies for any games lost to variance though.
 
 Have fun out there, it would warm my heart to run into a mirror of this deck on the ladder. An Arena export of my deck has been included below. Go get grifting! And please sign my [guestbook](https://users3.smartgb.com/g/g.php?a=s&i=g36-36443-57)!
 
