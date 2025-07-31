@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mellow Pages - Words to Numbers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">The Mellow Pages</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Words to Number</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="number-to-words.html">Number to Words</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h1 class="display-4 mb-4">Words to Number</h1>
+                        <p class="lead mb-5">Convert three words (and optional country word) into a phone number</p>
+
+                        <form id="wordsForm">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-4">
+                                    <label for="word1" class="form-label">First Word</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="word1" 
+                                               placeholder="Enter first word..." autocomplete="off">
+                                        <div class="dropdown-menu" id="suggestions1"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="word2" class="form-label">Second Word</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="word2" 
+                                               placeholder="Enter second word..." autocomplete="off">
+                                        <div class="dropdown-menu" id="suggestions2"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="word3" class="form-label">Third Word</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="word3" 
+                                               placeholder="Enter third word..." autocomplete="off">
+                                        <div class="dropdown-menu" id="suggestions3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="showCountryWord">
+                                        <label class="form-check-label" for="showCountryWord">
+                                            Include country code (adds prefix to phone number)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-4 mb-4 d-none" id="countryWordContainer">
+                                <div class="col-md-12">
+                                    <label for="countryWord" class="form-label">Country Word</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="countryWord" 
+                                               placeholder="Enter country word..." autocomplete="off">
+                                        <div class="dropdown-menu" id="countrySuggestions"></div>
+                                    </div>
+                                    <div class="form-text">This word will be mapped to a country code and prepended to the phone number</div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <button type="submit" class="btn btn-primary">Convert to Number</button>
+                            </div>
+                        </form>
+
+                        <div class="text-center">
+                            <div id="result" class="alert alert-success d-none" role="alert">
+                                <h4 class="alert-heading">Your Phone Number:</h4>
+                                <p class="mb-0 fs-2 fw-bold" id="phoneNumber"></p>
+                            </div>
+                        </div>
+
+                        <div id="error" class="alert alert-danger d-none" role="alert">
+                            <h4 class="alert-heading">Error</h4>
+                            <p class="mb-0" id="errorMessage"></p>
+                        </div>
+
+                        <div class="bg-light mt-5">
+                            <h5 class="mb-3">How it works:</h5>
+                            <ul class="text-start">
+                                <li>Each word corresponds to a number from our curated dictionary</li>
+                                <li>Three words create an international phone number (7-15 digits)</li>
+                                <li>Optional country word creates a country code prefix (1-4 digits)</li>
+                                <li>All words use the same mapping system for consistency</li>
+                                <li>Start typing to see autocomplete suggestions</li>
+                                <li>Words are carefully curated: no homophones, plurals, or offensive terms</li>
+                                <li>Example: "apple chair music" → "555-123-4567" or "bright apple chair music" → "123-555-123-4567"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

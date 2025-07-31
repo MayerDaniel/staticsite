@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mellow Pages - Number to Words</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">The Mellow Pages</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Words to Number</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="number-to-words.html">Number to Words</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h1 class="display-4 mb-4">Number to Words</h1>
+                        <p class="lead mb-5">Convert phone numbers into memorable words</p>
+
+                        <form id="phoneForm">
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-md-6">
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control text-center" 
+                                           id="phoneNumber" placeholder="555-123-4567" 
+                                           maxlength="20" autocomplete="off">
+                                    <div class="form-text">
+                                        Local phone number (7-15 digits)
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="showCountryWord">
+                                        <label class="form-check-label" for="showCountryWord">
+                                            Include country code (adds prefix to phone number)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-4 mb-4 d-none" id="countryWordContainer">
+                                <div class="col-md-12">
+                                    <label for="countryWord" class="form-label">Country Word</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="countryWord" 
+                                               placeholder="Enter country word..." autocomplete="off">
+                                        <div class="dropdown-menu" id="countrySuggestions"></div>
+                                    </div>
+                                    <div class="form-text">This word will be mapped to a country code and prepended to the phone number</div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-4">
+                                <button type="submit" class="btn btn-primary">Convert to Words</button>
+                            </div>
+                        </form>
+
+                        <div class="text-center">
+                            <div id="result" class="alert alert-success d-none" role="alert">
+                                <h4 class="alert-heading">Your Words:</h4>
+                                <div class="text-center">
+                                    <h5>Phone Number: <span id="phoneNumberDisplay"></span></h5>
+                                    <h5>Remember: <span id="wordsSummary"></span></h5>
+                                    <button class="btn btn-outline-primary btn-sm" id="copyWords">Copy Words</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="error" class="alert alert-danger d-none" role="alert">
+                            <h4 class="alert-heading">Error</h4>
+                            <p class="mb-0" id="errorMessage"></p>
+                        </div>
+
+                        <div class="bg-light mt-5">
+                            <h5 class="mb-3">How it works:</h5>
+                            <ul class="text-start">
+                                <li><strong>US Format:</strong> Enter 10 digits like (555) 123-4567 - no country code needed</li>
+                                <li><strong>International Format:</strong> Start with + for international numbers like +44-20-7946-0958</li>
+                                <li><strong>Country detection:</strong> Numbers with + show country word first, US numbers show 3 words</li>
+                                <li><strong>Consistent mapping:</strong> All words use the same dictionary and mapping system</li>
+                                <li><strong>Memorable:</strong> Words are easier to remember than numbers</li>
+                                <li><strong>Pronounceable:</strong> No homophones or confusing sounds</li>
+                                <li><strong>Unique:</strong> Each phone number maps to distinct words</li>
+                                <li><strong>Clean:</strong> No offensive terms, plurals, or difficult spellings</li>
+                                <li><strong>Shareable:</strong> Easier to communicate verbally or in writing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
