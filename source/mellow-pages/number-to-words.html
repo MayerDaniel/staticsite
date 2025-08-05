@@ -42,8 +42,28 @@
                         <p class="lead mb-5">Convert phone numbers into memorable words</p>
 
                         <form id="phoneForm">
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-md-8">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="showCountryCode">
+                                        <label class="form-check-label" for="showCountryCode">
+                                            International number (non-US)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row justify-content-center mb-4">
-                                <div class="col-md-6">
+                                <div class="col-md-3" id="countryCodeSection" style="display: none;">
+                                    <label for="countryCode" class="form-label">Code</label>
+                                    <input type="tel" class="form-control text-center" 
+                                           id="countryCode" value="+1" 
+                                           maxlength="5" autocomplete="off">
+                                    <div class="form-text">
+                                        Country dialing code
+                                    </div>
+                                </div>
+                                <div class="col-md-8" id="phoneNumberSection">
                                     <label for="phoneNumber" class="form-label">Phone Number</label>
                                     <input type="tel" class="form-control text-center" 
                                            id="phoneNumber" placeholder="555-123-4567" 
@@ -51,29 +71,6 @@
                                     <div class="form-text">
                                         Local phone number (7-15 digits)
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-4">
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="showCountryWord">
-                                        <label class="form-check-label" for="showCountryWord">
-                                            Include country code (adds prefix to phone number)
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row g-4 mb-4 d-none" id="countryWordContainer">
-                                <div class="col-md-12">
-                                    <label for="countryWord" class="form-label">Country Word</label>
-                                    <div class="position-relative">
-                                        <input type="text" class="form-control" id="countryWord" 
-                                               placeholder="Enter country word..." autocomplete="off">
-                                        <div class="dropdown-menu" id="countrySuggestions"></div>
-                                    </div>
-                                    <div class="form-text">This word will be mapped to a country code and prepended to the phone number</div>
                                 </div>
                             </div>
 
@@ -101,9 +98,9 @@
                         <div class="bg-light mt-5">
                             <h5 class="mb-3">How it works:</h5>
                             <ul class="text-start">
-                                <li><strong>US Format:</strong> Enter 10 digits like (555) 123-4567 - no country code needed</li>
-                                <li><strong>International Format:</strong> Start with + for international numbers like +44-20-7946-0958</li>
-                                <li><strong>Country detection:</strong> Numbers with + show country word first, US numbers show 3 words</li>
+                                <li><strong>US Numbers:</strong> Enter 10 digits like (555) 123-4567 - country code defaults to +1</li>
+                                <li><strong>International Numbers:</strong> Check "International number" to enter a custom country code</li>
+                                <li><strong>Country detection:</strong> International numbers show country word first, US numbers show 3 words</li>
                                 <li><strong>Consistent mapping:</strong> All words use the same dictionary and mapping system</li>
                                 <li><strong>Memorable:</strong> Words are easier to remember than numbers</li>
                                 <li><strong>Pronounceable:</strong> No homophones or confusing sounds</li>

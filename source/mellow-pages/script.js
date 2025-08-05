@@ -105,22 +105,24 @@ class MellowPages {
         if (phoneForm) {
             phoneForm.addEventListener('submit', (e) => this.handlePhoneSubmit(e));
             
-            // Setup country word autocomplete (same as words form)
-            const countryInput = document.getElementById('countryWord');
-            if (countryInput) {
-                this.setupCountryAutocomplete(countryInput, 'countrySuggestions');
-            }
+            // Handle country code checkbox and section visibility
+            const countryCheckbox = document.getElementById('showCountryCode');
+            const countrySection = document.getElementById('countryCodeSection');
+            const countryCodeInput = document.getElementById('countryCode');
             
-            // Handle country checkbox (same as words form)
-            const countryCheckbox = document.getElementById('showCountryWord');
-            const countryContainer = document.getElementById('countryWordContainer');
-            if (countryCheckbox && countryContainer) {
+            if (countryCheckbox && countrySection && countryCodeInput) {
+                // Set up auto-formatting for country code input
+                countryCodeInput.addEventListener('input', (e) => this.formatCountryCode(e));
+                
                 countryCheckbox.addEventListener('change', () => {
                     if (countryCheckbox.checked) {
-                        countryContainer.classList.remove('d-none');
+                        countrySection.style.display = 'block';
+                        // Clear the input when first shown, don't default to +1
+                        countryCodeInput.value = '';
                     } else {
-                        countryContainer.classList.add('d-none');
-                        if (countryInput) countryInput.value = '';
+                        countrySection.style.display = 'none';
+                        // Reset to +1 when hidden (for internal logic that might depend on it)
+                        countryCodeInput.value = '+1';
                     }
                 });
             }
@@ -282,10 +284,22 @@ class MellowPages {
         }
 
         const phoneInput = document.getElementById('phoneNumber').value;
-        const countryWord = document.getElementById('countryWord') ? 
-                           document.getElementById('countryWord').value.toLowerCase().trim() : '';
+        const countryCodeInput = document.getElementById('countryCode');
+        const showCountryCode = document.getElementById('showCountryCode');
         
-        // Clean the phone input
+        // Get country code if international number is selected
+        let countryCode = '';
+        let hasCountryCode = false;
+        if (showCountryCode && showCountryCode.checked && countryCodeInput) {
+            const countryCodeValue = countryCodeInput.value.trim();
+            if (countryCodeValue) {
+                // Remove + and extract just the digits
+                countryCode = countryCodeValue.replace(/^\+/, '').replace(/[^\d]/g, '');
+                hasCountryCode = countryCode.length > 0;
+            }
+        }
+        
+        // Clean the phone input (remove all non-digits)
         const cleanPhone = phoneInput.replace(/[^\d]/g, '');
 
         if (cleanPhone.length < 7 || cleanPhone.length > 15) {
@@ -293,27 +307,18 @@ class MellowPages {
             return;
         }
 
+        // Validate country code if international is selected
+        if (showCountryCode && showCountryCode.checked && !hasCountryCode) {
+            this.showError('Please enter a country code for international numbers.');
+            return;
+        }
+
         try {
-            let fullPhoneNumber = cleanPhone;
-            let hasCountryCode = false;
+            // Pass cleanPhone (local number) and country code separately
+            const words = this.phoneToWords(cleanPhone, hasCountryCode, countryCode);
             
-            // Add country code if country word is provided
-            if (countryWord) {
-                // Look for country by name in country codes database
-                const country = this.countryCodes.find(c => 
-                    c.name.toLowerCase().replace(/[^a-z]/g, '') === countryWord.toLowerCase().replace(/[^a-z]/g, '')
-                );
-                if (!country) {
-                    this.showError(`Country "${countryWord}" not found in database.`);
-                    return;
-                }
-                const countryCode = country.dial_code.replace('+', '');
-                fullPhoneNumber = countryCode + cleanPhone;
-                hasCountryCode = true;
-            }
-            
-            const words = this.phoneToWords(fullPhoneNumber, hasCountryCode, hasCountryCode ? fullPhoneNumber.substring(0, fullPhoneNumber.length - cleanPhone.length) : '');
-            this.showPhoneResult(fullPhoneNumber, words, hasCountryCode);
+            // Pass the local number and country code separately to avoid concatenation issues
+            this.showPhoneResult(cleanPhone, words, hasCountryCode, countryCode);
         } catch (error) {
             this.showError(error.message);
         }
@@ -325,10 +330,11 @@ class MellowPages {
         let localNumber = phoneNumber;
         
         if (explicitCountryCode) {
-            // Country code provided separately, remove it from phone number
-            localNumber = phoneNumber.substring(explicitCountryCode.length);
+            // Country code provided separately, use phoneNumber as local number only
+            localNumber = phoneNumber;
+            countryCode = explicitCountryCode;
         } else if (hasInternationalPrefix && phoneNumber.length > 10) {
-            // Extract country code (1-4 digits from start)
+            // Extract country code (1-4 digits from start) 
             const possibleCountryCode = phoneNumber.substring(0, phoneNumber.length - 10);
             if (possibleCountryCode.length <= 4) {
                 countryCode = possibleCountryCode;
@@ -367,9 +373,13 @@ class MellowPages {
         let countryWord = '';
         let countryInfo = null;
         if (countryCode && this.countryCodes.length > 0) {
-            const countryIndex = parseInt(countryCode) % this.countryCodes.length;
-            countryInfo = this.countryCodes[countryIndex];
-            countryWord = countryInfo.name.toLowerCase().replace(/[^a-z]/g, '');
+            // Find country by dial code, not by index
+            countryInfo = this.countryCodes.find(country => 
+                country.dial_code.replace('+', '') === countryCode
+            );
+            if (countryInfo) {
+                countryWord = countryInfo.name.toLowerCase().replace(/[^a-z]/g, '');
+            }
         }
 
         return [
@@ -401,27 +411,28 @@ class MellowPages {
 
         // Find country code from word if specified
         let countryCode = '';
+        let countryInfo = null;
         if (countryWord) {
             // Look for country by name in country codes database
-            const country = this.countryCodes.find(c => 
+            countryInfo = this.countryCodes.find(c => 
                 c.name.toLowerCase().replace(/[^a-z]/g, '') === countryWord.toLowerCase().replace(/[^a-z]/g, '')
             );
-            if (!country) {
+            if (!countryInfo) {
                 throw new Error(`Country "${countryWord}" not found in database.`);
             }
-            countryCode = country.dial_code.replace('+', '');
+            countryCode = countryInfo.dial_code.replace('+', '');
         }
 
-        // Reconstruct phone number from the string keys
-        let phoneNumber = key1 + key2 + key3;
+        // Reconstruct phone number from the string keys (local number only)
+        const localNumber = key1 + key2 + key3;
 
-        // Prepend country code if specified
-        if (countryCode) {
-            phoneNumber = countryCode + phoneNumber;
-        }
-
-        // Format the phone number appropriately
-        return this.formatInternationalNumber(phoneNumber);
+        // Return both local number and country info for proper formatting
+        return {
+            localNumber: localNumber,
+            countryCode: countryCode,
+            countryInfo: countryInfo,
+            hasCountryCode: !!countryCode
+        };
     }
 
     setupCountryAutocomplete(input, suggestionsId) {
@@ -540,8 +551,8 @@ class MellowPages {
         }
 
         try {
-            const phoneNumber = this.wordsToPhone(word1, word2, word3, countryWord);
-            this.showWordsResult(phoneNumber, [word1, word2, word3], countryWord);
+            const phoneResult = this.wordsToPhone(word1, word2, word3, countryWord);
+            this.showWordsResult(phoneResult, [word1, word2, word3], countryWord);
         } catch (error) {
             this.showError(error.message);
         }
@@ -602,7 +613,16 @@ class MellowPages {
     formatLocalPhoneNumber(e) {
         let value = e.target.value;
         
-        // Remove non-digits
+        // Check if country code section is visible - if so, don't allow + signs in phone field
+        const countryCodeSection = document.getElementById('countryCodeSection');
+        const isCountryCodeVisible = countryCodeSection && countryCodeSection.style.display !== 'none';
+        
+        if (isCountryCodeVisible) {
+            // Remove + signs and other international formatting from phone field
+            value = value.replace(/[^\d\-]/g, '');
+        }
+        
+        // Remove non-digits for formatting
         const digits = value.replace(/[^\d]/g, '');
         
         // Format based on length
@@ -625,19 +645,41 @@ class MellowPages {
         e.target.value = value;
     }
 
-    showPhoneResult(phoneNumber, wordsData, hasInternationalPrefix = false) {
+    formatLocalNumber(phoneNumber) {
+        // Format local phone numbers (without country code)
+        const length = phoneNumber.length;
+        
+        if (length >= 10) {
+            // 10+ digits: XXX-XXX-XXXX+ format
+            return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6, 10)}${phoneNumber.length > 10 ? '-' + phoneNumber.substring(10) : ''}`;
+        } else if (length >= 7) {
+            // 7-9 digits: XXX-XXXX+ format
+            return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(3)}`;
+        } else if (length >= 4) {
+            // 4-6 digits: XXX-X+ format  
+            return `${phoneNumber.substring(0, 3)}-${phoneNumber.substring(3)}`;
+        } else {
+            return phoneNumber;
+        }
+    }
+
+    showPhoneResult(localPhoneNumber, wordsData, hasInternationalPrefix = false, separateCountryCode = '') {
         const [word1, word2, word3, numbers, countryWord, countryCode, isInternational, countryInfo] = wordsData;
         
         // Format phone number appropriately
         let formattedPhone;
-        if (hasInternationalPrefix) {
-            formattedPhone = '+' + this.formatInternationalNumber(phoneNumber).replace(/^\+/, '');
+        if (hasInternationalPrefix && separateCountryCode) {
+            // Format with separate country code: +CC local-number
+            const formattedLocal = this.formatLocalNumber(localPhoneNumber);
+            formattedPhone = `+${separateCountryCode} ${formattedLocal}`;
+        } else if (hasInternationalPrefix) {
+            formattedPhone = '+' + this.formatInternationalNumber(localPhoneNumber);
         } else {
             // American format: (XXX) XXX-XXXX
-            if (phoneNumber.length === 10) {
-                formattedPhone = `(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}`;
+            if (localPhoneNumber.length === 10) {
+                formattedPhone = `(${localPhoneNumber.substring(0, 3)}) ${localPhoneNumber.substring(3, 6)}-${localPhoneNumber.substring(6)}`;
             } else {
-                formattedPhone = this.formatInternationalNumber(phoneNumber);
+                formattedPhone = this.formatInternationalNumber(localPhoneNumber);
             }
         }
         
@@ -647,7 +689,7 @@ class MellowPages {
             phoneDisplayElement.textContent = formattedPhone;
         }
         
-        // Update summary
+        // Update summary - include country word if international
         const summary = (countryWord && hasInternationalPrefix) ? 
                        `${countryWord} ${word1} ${word2} ${word3}` : 
                        `${word1} ${word2} ${word3}`;
@@ -660,8 +702,23 @@ class MellowPages {
         this.hideFormSections();
     }
 
-    showWordsResult(phoneNumber, words, countryWord = '') {
-        document.getElementById('phoneNumber').textContent = phoneNumber;
+    showWordsResult(phoneResult, words, countryWord = '') {
+        // Format phone number appropriately
+        let formattedPhone;
+        if (phoneResult.hasCountryCode) {
+            // Format with separate country code: +CC local-number
+            const formattedLocal = this.formatLocalNumber(phoneResult.localNumber);
+            formattedPhone = `+${phoneResult.countryCode} ${formattedLocal}`;
+        } else {
+            // US format: (XXX) XXX-XXXX
+            if (phoneResult.localNumber.length === 10) {
+                formattedPhone = `(${phoneResult.localNumber.substring(0, 3)}) ${phoneResult.localNumber.substring(3, 6)}-${phoneResult.localNumber.substring(6)}`;
+            } else {
+                formattedPhone = this.formatInternationalNumber(phoneResult.localNumber);
+            }
+        }
+        
+        document.getElementById('phoneNumber').textContent = formattedPhone;
         
         this.hideError();
         document.getElementById('result').classList.remove('d-none');
@@ -680,20 +737,24 @@ class MellowPages {
         // DO NOT hide form sections for demo - keep them visible
     }
 
-    showDemoPhoneResult(phoneNumber, wordsData, hasInternationalPrefix = false) {
+    showDemoPhoneResult(localPhoneNumber, wordsData, hasInternationalPrefix = false, separateCountryCode = '') {
         // Show demo result without hiding the form (for animations only)
         const [word1, word2, word3, numbers, countryWord, countryCode, isInternational, countryInfo] = wordsData;
         
         // Format phone number appropriately
         let formattedPhone;
-        if (hasInternationalPrefix) {
-            formattedPhone = '+' + this.formatInternationalNumber(phoneNumber).replace(/^\+/, '');
+        if (hasInternationalPrefix && separateCountryCode) {
+            // Format with separate country code: +CC local-number
+            const formattedLocal = this.formatLocalNumber(localPhoneNumber);
+            formattedPhone = `+${separateCountryCode} ${formattedLocal}`;
+        } else if (hasInternationalPrefix) {
+            formattedPhone = '+' + this.formatInternationalNumber(localPhoneNumber);
         } else {
             // American format: (XXX) XXX-XXXX
-            if (phoneNumber.length === 10) {
-                formattedPhone = `(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}`;
+            if (localPhoneNumber.length === 10) {
+                formattedPhone = `(${localPhoneNumber.substring(0, 3)}) ${localPhoneNumber.substring(3, 6)}-${localPhoneNumber.substring(6)}`;
             } else {
-                formattedPhone = this.formatInternationalNumber(phoneNumber);
+                formattedPhone = this.formatInternationalNumber(localPhoneNumber);
             }
         }
         
@@ -878,10 +939,10 @@ class MellowPages {
     performDemoConversion(words) {
         try {
             const countryWord = words.length > 3 ? words[3] : '';
-            const phoneNumber = this.wordsToPhone(words[0], words[1], words[2], countryWord);
+            const phoneResult = this.wordsToPhone(words[0], words[1], words[2], countryWord);
             
             // Show demo result without hiding the form
-            //this.showDemoResult(phoneNumber, words.slice(0, 3), countryWord);
+            //this.showDemoResult(phoneResult, words.slice(0, 3), countryWord);
         } catch (error) {
             // Silently ignore demo conversion errors
         }
@@ -1132,6 +1193,22 @@ class MellowPages {
             countryContainer.classList.add('d-none');
             countryCheckbox.checked = false;
         }
+    }
+
+    formatCountryCode(e) {
+        let value = e.target.value;
+        
+        // Remove all non-digits first
+        const digits = value.replace(/[^\d]/g, '');
+        
+        // If there are digits, add + prefix, otherwise keep empty
+        if (digits.length > 0) {
+            value = `+${digits}`;
+        } else {
+            value = '';
+        }
+        
+        e.target.value = value;
     }
 }
 
