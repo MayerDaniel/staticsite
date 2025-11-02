@@ -115,9 +115,13 @@ Here is a basic primer on how the game is played and what game actions you can t
 
 ### Dealing/Blind Rotation
 
-Dealer rotates clockwise, with the small blind and big blind being left of them
+Dealer rotates clockwise, with the small blind and big blind being left of them. 
 
-[!blinds](./blinds.webp)
+First to bet after everyone is dealt two cards is the person left of the big blind. 
+
+In all subsequent betting rounds it is whoever is left of the dealer.
+
+![blinds](./blinds.webp)
 
 ### Betting Strategy
 

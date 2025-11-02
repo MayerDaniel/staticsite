@@ -3,7 +3,11 @@
 ## TLDR
 I could make opponents concede at will so that I never lost a game in Magic: The Gathering Arena
 
-<blockquote class="twitter-tweet tw-align-center" style="margin: auto;"><p lang="en" dir="ltr">Hey <a href="https://twitter.com/MTG_Arena?ref_src=twsrc%5Etfw">@MTG_Arena</a> I figured out how to make an opponent auto-concede the game. Let me know how you&#39;d like me to report the issue and I will send over the source + an explanation of how it can be mitigated. Thank you! <a href="https://t.co/dWMdkKjOA2">pic.twitter.com/dWMdkKjOA2</a></p>&mdash; Daniel Mayer (@dan__mayer) <a href="https://twitter.com/dan__mayer/status/1641669864460009472?ref_src=twsrc%5Etfw">March 31, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ <video width="100%" controls>
+ <source src="concede.mp4#t=0.001" type="video/mp4">
+ </video>
+
+<hr>
 
 ## Prelude
 
@@ -102,7 +106,9 @@ Most of the is just accessing in-game memory objects to get all the information 
 
 Lo and behold, this worked! Even if the opponent had already connected and we are in the middle of a game, which is what you see in the video. As you can also see, I got rewards as if I beat a human opponent, because this was a matchmaking game:
 
-<blockquote class="twitter-tweet tw-align-center" style="margin: auto;"><p lang="en" dir="ltr">Hey <a href="https://twitter.com/MTG_Arena?ref_src=twsrc%5Etfw">@MTG_Arena</a> I figured out how to make an opponent auto-concede the game. Let me know how you&#39;d like me to report the issue and I will send over the source + an explanation of how it can be mitigated. Thank you! <a href="https://t.co/dWMdkKjOA2">pic.twitter.com/dWMdkKjOA2</a></p>&mdash; Daniel Mayer (@dan__mayer) <a href="https://twitter.com/dan__mayer/status/1641669864460009472?ref_src=twsrc%5Etfw">March 31, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ <video width="100%" controls>
+ <source src="concede.mp4#t=0.001" type="video/mp4">
+ </video>
 
 I hope you have a little bit more respect for Sparky now. You can check out the code below if you are interested, but the servers have now been patched to make sure both seats don't have the same account and JWT for matchmaking games.
 
